@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.png">
+
+    <title>Incremental Progress</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
+
+    <link href="css/styleguide.css" rel="stylesheet">
+
+    <link href="css/main.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/d3.tip.js"></script>
+
+
+      <script src="js/main.js"></script>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar">
+      <div class="container">
+        <div class="info-pane">
+        	<div class="inner-container">
+        		<div class="entry-header">
+        			<h1 class="info-pane-name">Incremental Progress</h1>
+        		</div>
+        		<div class="collapse-info-pane-wrapper">
+        			<button class="btn-transparent collapse-info-pane-btn">
+        				More Info
+        					<span class="socrata-icon socrata-icon-arrow-down">
+        						<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+								    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
+								    <title>arrow-down</title>
+								    <desc>Created with Sketch.</desc>
+								    <defs></defs>
+								    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								        <g id="arrow-down" fill="#000000">
+								            <polygon id="Shape" points="972 310.5 914.5 253 512 655.5 109.5 253 52 310.5 511.998203 770.5"></polygon>
+								        </g>
+								    </g>
+								</svg>
+        					</span>
+        			</button>
+                    <div class="info-content">
+                    How much has the world improved since you were born?
+                    </div>
+        		</div>
+        	</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="body-holder">
+        <div class="control-div">
+            <form>
+                <div class="row year-born">
+                    <div class="input-holder">
+                        <label for="name">What year were you born?</label>
+                        <input type="number" id="born" name="born" min="1950" max="2017" value="1990" tabindex="1">
+                    </div>
+                </div>
+                <div class="row" style="display:none;">
+					<div class="input-holder">
+						<label for="name">Select a Country</label>
+						<div id="country1" class="country-menu" tabindex="2">
+							<span class="country-choice">Select...</span>
+							<ul class="dropdown">
+								<li country="none">
+									<a href="#">None</a>
+								</li>
+								<li country="Grenada">
+									<a href="#">Grenada</a>
+								</li>
+								<li>
+									<a href="#">United States</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="input-holder">
+						<div id="country2" class="country-menu" tabindex="3">
+							<span class="country-choice">Select...</span>
+							<ul class="dropdown">
+								<li country="none">
+									<a href="#">None</a>
+								</li>
+								<li country="Grenada">
+									<a href="#">Grenada</a>
+								</li>
+								<li>
+									<a href="#">United States</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="input-holder">
+						<div id="country3" class="country-menu" tabindex="4">
+							<span class="country-choice">Select...</span>
+							<ul class="dropdown">
+								<li country="none">
+									<a href="#">None</a>
+								</li>
+								<li country="Grenada">
+									<a href="#">Grenada</a>
+								</li>
+								<li>
+									<a href="#">United States</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+                </div>
+                <!-- temporary fields -->
+        <div class="row">
+            <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="InputName">Chose Country</label>
+                        <div class="input-group">
+                            <div id="countryDD1" style="float:left;  padding-right: 5px;"> </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="InputName">Chose Country</label>
+                        <div class="input-group">
+                            <div id="countryDD2" style="float:left;  padding-right: 5px;"> </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="InputName">Chose Country</label>
+                        <div class="input-group">
+                            <div id="countryDD3" style="float:left;  padding-right: 5px;"> </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+                <div class="row globalAvg">
+                    <input type="checkbox" name="global-avg" id="global-avg">
+                    <label for="global-avg">Global Avg</label>
+
+                </div>
+            </form>
+        </div>
+        <div class="legend-holder"></div>
+
+
+                <div class="row">
+                    <div class="chart-holder">
+
+                            <!-- Chart Containers -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div id="life_expectancy"></div>
+            </div>
+            <div class="col-lg-4">
+                <div id="infant_mortality_rate"></div>
+            </div>
+            <div class="col-lg-4">
+                <div id="primary_completion_rate_total_of_relevant_age_group"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div id="adult_15_literacy_rate_total"></div>
+            </div>
+            <div class="col-lg-4">
+                <div id="gdp_per_capita_ppp"></div>
+            </div>
+            <div class="col-lg-4">
+                <div id="birth_rate"></div>
+            </div>
+        </div>
+    </div>
+
+                    </div>
+                    <div class="text-stats">
+                        <span class="title">Since your birth:</span>
+                        <ul>
+                            <li>
+                                Life expectancy in <span class="life-country"></span> has <span class="life-change-direction">[changed]</span> from <span class="life-past"></span> to <span class="life-present"></span> years.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="social-share">
+                        <h2>Share the good news.</h2>
+                        <div class="row">
+                            <ul>
+                                <li class="facebook">Facebook</li>
+                                <li class="twitter">Twitter</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+
+
+  </body>
+</html>
