@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // text stat vars
-    var lifeCountry, lifePast, lifePresent;
+    var lifeCountry, lifePast, lifePresent, lifeFacts = [];
 
     // toggle "more info" button
     $(".collapse-info-pane-btn").click(function() {
@@ -53,12 +53,13 @@ $(document).ready(function() {
     // d3 v3.5.17
 
 
-    // bar chart settings
     // I don't know what the fuck is happening in here.
+
+    // bar chart configuration
     function drawGroupBarChart(data, container, groupby, chartTitle, xaxislabel, yaxislabel) {
         d3.select(container).select("svg").remove(); // d3 standard. start by selecting & clearing new element
-        var chart = {};
-        chart.margin = {
+        var chart = {}; // empty object
+        chart.margin = { // positioning
                 top: 24,
                 right: 75,
                 bottom: 60,
@@ -67,9 +68,61 @@ $(document).ready(function() {
             chart.width = 400 - chart.margin.left - chart.margin.right,
             chart.height = 350 - chart.margin.top - chart.margin.bottom;
 
-        chart.containerName = container;
-        chart.data = data;
-        chart.group = groupby;
+        chart.containerName = container; // passed variable
+        chart.data = data; // passed variable
+
+        lifeFacts[0] = data; //saving info to display in text fact area
+        $(".bottom-info").show();
+
+        if (chartTitle == 'Income per person') {
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.income-holder').toggle();
+            }
+            $('.income-present').html("$"+parseFloat(lifeFacts[0][0]["Present"]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $('.income-past').html("$"+parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        } else if (chartTitle == 'Birth Rate') {
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.birth-holder').toggle();
+            }
+            $('.birth-present').html(lifeFacts[0][0]["Present"]);
+            $('.birth-past').html(lifeFacts[0][0][$('#born').val()]);
+        } else if (chartTitle == 'Infant Mortality') {
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.infant-holder').toggle();
+            }
+            $('.infant-present').html(lifeFacts[0][0]["Present"]);
+            $('.infant-past').html(lifeFacts[0][0][$('#born').val()]);
+        } else if (chartTitle == 'Life Expectancy') {
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.completion-holder').toggle();
+            }
+            $('.life-present').html(lifeFacts[0][0]["Present"]);
+            $('.life-past').html(lifeFacts[0][0][$('#born').val()]);
+        } else if (chartTitle == 'School Completion') {
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.completion-holder').toggle();
+            }
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.completion-holder').toggle();
+            }
+            $('.completion-present').html(lifeFacts[0][0]["Present"]);
+            $('.completion-past').html(lifeFacts[0][0][$('#born').val()]);
+
+        }else if (chartTitle == 'Adult Literacy') {
+            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
+                $('.completion-holder').toggle();
+            }
+            $('.literacy-present').html(lifeFacts[0][0]["Present"]);
+            $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);
+        }
+        //console.log("charttle here");
+        //console.log(chartTitle);
+        //console.log(lifeFacts[0][0]);
+        //console.log(lifeFacts[0][0][$('#born').val()]); // old value
+        //console.log(lifeFacts[0][0]["Present"]); // present value
+        //console.log(lifeFacts[0][0]["Countries"]); // country name
+
+        chart.group = groupby; // passed variable
 
         chart.x0 = d3.scale.ordinal() // ordinal scale for discrete values of strings
         	.rangeRoundBands([-5, chart.width], .1);
