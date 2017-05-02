@@ -102,15 +102,11 @@ $(document).ready(function() {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.completion-holder').toggle();
             }
+            $('.life-present').html(lifeFacts[0][0]["Present"]);
+            $('.life-past').html(lifeFacts[0][0][$('#born').val()]);
+        } else if (chartTitle == 'Adult Literacy') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.completion-holder').toggle();
-            }
-            $('.completion-present').html(lifeFacts[0][0]["Present"]);
-            $('.completion-past').html(lifeFacts[0][0][$('#born').val()]);
-
-        }else if (chartTitle == 'Adult Literacy') {
-            if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.completion-holder').toggle();
+                $('.literacy-holder').toggle();
             }
             $('.literacy-present').html(lifeFacts[0][0]["Present"]);
             $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);

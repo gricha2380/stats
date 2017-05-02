@@ -157,6 +157,18 @@ input[type="text"],input[type="number"] {
 
 .social-share {
     text-align: center;
+		ul {
+			padding-left: 0;
+			li {
+				display: inline-flex;
+				vertical-align: bottom;
+				margin-right: 10px;
+					&:last-of-type {
+						margin-right: 0;
+					}
+			}
+		}
+	
 }
 
 /* dropdown menu */
