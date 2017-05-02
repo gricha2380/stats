@@ -129,7 +129,7 @@ $(document).ready(function() {
             .range([chart.height, 0]);
 
         chart.color = d3.scale.ordinal()
-            .range(['#DE3700', '#009802', '#0098C8', '#64AC00', '#DF4176', '#2F62CF']); // chart colors
+            .range(['#5b9ec9', '#7eba98', '#2d82af', '#98d277', '#52af43', '#dc9a88']); // chart colors
 
         chart.xAxis = d3.svg.axis()
             .scale(chart.x0)
