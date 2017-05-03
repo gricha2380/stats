@@ -170,7 +170,7 @@
                     <div class="chart-holder">
 
                             <!-- Chart Containers -->
-    <div class="container">
+    <div class="container-plain">
         <div class="row">
             <div class="col-lg-4">
                 <div id="life_expectancy"></div>
@@ -196,23 +196,54 @@
     </div>
 
                     </div>
+                <div class="bottom-info">
                     <div class="text-stats">
                         <span class="title">Since your birth:</span>
                         <ul>
-                            <li>
-                                Life expectancy in <span class="life-country"></span> has <span class="life-change-direction">[changed]</span> from <span class="life-past"></span> to <span class="life-present"></span> years.
+                            <li class="life-holder">
+                                Life expectancy in <span class="life-country"></span> has <span class="life-change-direction">changed</span> from <span class="life-past"></span> years to <span class="life-present"></span> years.
                             </li>
+                            <li class="completion-holder">
+                                The percent of students completing school has changed from <span class="completion-past"></span>% to <span class="completion-present"></span>%.
+                            </li>
+                            <li class="infant-holder">
+                                Infant mortality has gone from <span class="infant-past"></span> to <span class="infant-present"></span> (per 1,000 births).</li>
+                            <li class="literacy-holder">
+                                While adult literacy is now <span class="literacy-present"></span>% from <span class="literacy-past"></span>%.
+                            </li>
+                            <li class="income-holder">
+                                Income per person is now <span class="income-present"></span> from <span class="income-past"></span>.
+                            </li>
+                            <li class="birth-holder">
+                                And the birth rate has gone from <span class="birth-past"></span> to <span class="birth-present"></span> (per 1,000 population).
+                            </li>
+                            <span><a href="https://gregor.demo.socrata.com/browse?category=Education&limitTo=datasets" target="_blank">View the data</a></span>
                         </ul>
                     </div>
                     <div class="social-share">
+                    <!-- Facebook SDK -->
+                    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=162830337136711";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
                         <h2>Share the good news.</h2>
                         <div class="row">
                             <ul>
-                                <li class="facebook">Facebook</li>
-                                <li class="twitter">Twitter</li>
+                                <li class="facebook">
+<div class="fb-share-button" data-href="https://gricha2380.github.io/stats/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgricha2380.github.io%2Fstats%2F&amp;src=sdkpreparse">Share</a></div>
+</li>
+                                <li class="twitter">
+                                    <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="How much has the world improved since you were born?" data-hashtags="progress" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                </li>
                             </ul>
                         </div>
                     </div>
+                </div>
 
                 </div>
 
@@ -221,12 +252,15 @@
     </div><!-- /.container -->
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-97412676-2', 'auto');
+  ga('send', 'pageview');
 
+</script>
   </body>
 </html>
