@@ -63,7 +63,7 @@ $(document).ready(function() {
                 top: 24,
                 right: 75,
                 bottom: 60,
-                left: 10
+                left: -20
             },
             chart.width = 400 - chart.margin.left - chart.margin.right,
             chart.height = 350 - chart.margin.top - chart.margin.bottom;
@@ -152,10 +152,11 @@ $(document).ready(function() {
 
         chart.svg.append("text")
             .attr("x", (chart.width / 2))
-            .attr("y", 0 - (chart.margin.top / 2))
+            .attr("y", 2 - (chart.margin.top / 2))
             .attr("text-anchor", "middle")
-            .style("font-size", "14px")
+            .style("font-size", "18px")
             .style("text-direction", "underline")
+            .style("fill", "#5e5e5e")
             .text(chartTitle);
 
         chart.render = function() {
@@ -283,7 +284,7 @@ $(document).ready(function() {
                     lineHeight = 1.1, //ems
                     y = text.attr("y"),
                     dy = parseFloat(text.attr("dy")),
-                    tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                    tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em").attr("fill","#176289");
                 while (word = words.pop()) {
                     line.push(word);
                     tspan.text(line.join(" "));
@@ -333,7 +334,7 @@ $(document).ready(function() {
 
             yearArray.unshift(container);
 
-            var filterdata = filterData(data, container, countryList[0]);
+            var filterdata = filterData(data, container, countryList[0]); // new var to hold json contents and dropdown selection
             if (countryList[1] != undefined) {
                 filterdata.push(filterData(data, container, countryList[1])[0]);
             }

@@ -10,7 +10,7 @@ body {
     border-bottom: 10px solid $main-color;
       color: $text-color;
 //font-family: 'Open Sans Light';
-    font-family: 'Open Sans Light', sans-serif;
+    font-family: 'Open Sans Light', 'Open Sans', sans-serif;
       font-size: 10pt;
     background: $bg-color;
 }
@@ -20,6 +20,11 @@ body {
     //max-width: 75em;
     margin: auto;
     padding: 20px;
+}
+
+.container-plain {
+	padding: 0;
+    margin-left: -40px;
 }
 
 .navbar {
@@ -44,6 +49,10 @@ body {
         display: block;
         width: 100%;
     }
+}
+
+.chart-holder {
+	margin-top: 50px;
 }
 
 .globalAvg {
@@ -303,8 +312,9 @@ input[type="text"],input[type="number"] {
 
 /* D3 STYLES */
 
-.axis path,
-.axis line {
+//.axis line,
+.axis path
+ {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
