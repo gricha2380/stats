@@ -78,8 +78,8 @@ $(document).ready(function() {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.income-holder').toggle();
             }
-            $('.income-present').html("$"+parseFloat(lifeFacts[0][0]["Present"]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-            $('.income-past').html("$"+parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $('.income-present').html("$" + parseFloat(lifeFacts[0][0]["Present"]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $('.income-past').html("$" + parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         } else if (chartTitle == 'Birth Rate') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.birth-holder').toggle();
@@ -111,17 +111,11 @@ $(document).ready(function() {
             $('.literacy-present').html(lifeFacts[0][0]["Present"]);
             $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);
         }
-        //console.log("charttle here");
-        //console.log(chartTitle);
-        //console.log(lifeFacts[0][0]);
-        //console.log(lifeFacts[0][0][$('#born').val()]); // old value
-        //console.log(lifeFacts[0][0]["Present"]); // present value
-        //console.log(lifeFacts[0][0]["Countries"]); // country name
 
         chart.group = groupby; // passed variable
 
         chart.x0 = d3.scale.ordinal() // ordinal scale for discrete values of strings
-        	.rangeRoundBands([-5, chart.width], .1);
+            .rangeRoundBands([-5, chart.width], .1);
 
         chart.x1 = d3.scale.ordinal();
 
@@ -143,7 +137,7 @@ $(document).ready(function() {
         chart.tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
-            .html(function (d) { // I can clean up this CSS
+            .html(function(d) { // I can clean up this CSS
                 return "<strong>Year:</strong> <span  style='color:white; font: 19px;'>" + d.name + "</span></br></br>" +
                     "<strong>Value:</strong> <span style='color:white'>" + d.value + ' ' + yaxislabel + "</span>";
             });
@@ -165,12 +159,12 @@ $(document).ready(function() {
             .text(chartTitle);
 
         chart.render = function() {
-            var dataKeys = d3.keys(data[0]).filter(function (key) {
+            var dataKeys = d3.keys(data[0]).filter(function(key) {
                 return key != chart.group;
             });
 
-            data.forEach(function (d) {
-                d.ages = dataKeys.map(function (name) {
+            data.forEach(function(d) {
+                d.ages = dataKeys.map(function(name) {
                     return {
                         name: name,
                         value: +d[name]
@@ -178,13 +172,13 @@ $(document).ready(function() {
                 });
             });
 
-            chart.x0.domain(data.map(function (d) {
+            chart.x0.domain(data.map(function(d) {
                 return d[chart.group];
             }));
 
             chart.x1.domain(dataKeys).rangeRoundBands([20, chart.x0.rangeBand()]);
-            chart.y.domain([0, d3.max(data, function (d) {
-                return d3.max(d.ages, function (d) {
+            chart.y.domain([0, d3.max(data, function(d) {
+                return d3.max(d.ages, function(d) {
                     return d.value;
                 });
             })]);
@@ -195,13 +189,13 @@ $(document).ready(function() {
                 .call(chart.xAxis)
                 .selectAll(".tick text")
                 .call(wrap, chart.x0.rangeBand())
-                .on("click", function (d) {
+                .on("click", function(d) {
                     /*  d3.select("#GroupChart2").select("svg").remove();
                     Call2ndChart(d);*/
                 });
 
             /*Add the text label for the x axis
-        	chart.svg.append("text")
+            chart.svg.append("text")
             .attr("transform", "translate(" + (chart.width / 2) + " ," + (chart.height + chart.margin.bottom) + ")")
             .style("text-anchor", "middle")
             .text(xaxislabel);
@@ -221,31 +215,31 @@ $(document).ready(function() {
                 .data(chart.data)
                 .enter().append("g")
                 .attr("class", "state")
-                .attr("transform", function (d) {
+                .attr("transform", function(d) {
                     return "translate(" + (chart.x0(d[chart.group])) + ",0)";
                 })
-                .on("click", function (d) {
+                .on("click", function(d) {
                     d3.select("#GroupChart2").select("svg").remove();
                     Call2ndChart(d.Category);
                     console.log("clicking a bar");
                 });
 
             state.selectAll("rect")
-                .data(function (d) {
+                .data(function(d) {
                     return d.ages;
                 })
                 .enter().append("rect")
                 .attr("width", chart.x1.rangeBand())
-                .attr("x", function (d) {
+                .attr("x", function(d) {
                     return chart.x1(d.name);
                 })
-                .attr("y", function (d) {
+                .attr("y", function(d) {
                     return chart.y(d.value);
                 })
-                .attr("height", function (d) {
+                .attr("height", function(d) {
                     return chart.height - chart.y(d.value);
                 })
-                .style("fill", function (d) {
+                .style("fill", function(d) {
                     return chart.color(d.name);
                 })
                 .on("mouseover", chart.tip.show) // show tooltip
@@ -255,10 +249,10 @@ $(document).ready(function() {
                 .data(dataKeys.slice().reverse())
                 .enter().append("g")
                 .attr("class", "legend")
-                .attr("transform", function (d, i) {
+                .attr("transform", function(d, i) {
                     return "translate(60," + i * 20 + ")";
                 })
-                .on("click", function (d) {
+                .on("click", function(d) {
 
                 });
 
@@ -273,7 +267,7 @@ $(document).ready(function() {
                 .attr("y", 9)
                 .attr("dy", ".35em")
                 .style("text-anchor", "end")
-                .text(function (d) {
+                .text(function(d) {
                     return d;
                 });
         };
@@ -283,8 +277,8 @@ $(document).ready(function() {
             text.each(function() {
                 var text = d3.select(this),
                     words = text.text().split(/\s+/).reverse(),
-                word,
-                line = [],
+                    word,
+                    line = [],
                     lineNumber = 0,
                     lineHeight = 1.1, //ems
                     y = text.attr("y"),
@@ -308,57 +302,57 @@ $(document).ready(function() {
     }
 
 
-	// Utility
-	function filterData(data, category, value) {
-		var filterdata = data.filter(function (row) {
-			return row[category] == value;
-		});
-		return filterdata;
-	}
+    // Utility
+    function filterData(data, category, value) {
+        var filterdata = data.filter(function(row) {
+            return row[category] == value;
+        });
+        return filterdata;
+    }
 
-	function GetData (data, properties) {
-		SubCategoryData = [];
-		data.forEach(function (d) {
-			if (d[properties[1]] == undefined)
-				d[properties[1]] = "0";
-			if (d[properties[2]] == undefined)
-				d[properties[2]] = "0";
-			var Obj = {};
-			Obj["Countries"] = d[properties[0]];
-			Obj[properties[1].replace('_', '')] = d[properties[1]];
-			Obj['Present'] = d[properties[2]];
-			SubCategoryData.push(Obj);
-		});
-		return SubCategoryData;
-	}
+    function GetData(data, properties) {
+        SubCategoryData = [];
+        data.forEach(function(d) {
+            if (d[properties[1]] == undefined)
+                d[properties[1]] = "0";
+            if (d[properties[2]] == undefined)
+                d[properties[2]] = "0";
+            var Obj = {};
+            Obj["Countries"] = d[properties[0]];
+            Obj[properties[1].replace('_', '')] = d[properties[1]];
+            Obj['Present'] = d[properties[2]];
+            SubCategoryData.push(Obj);
+        });
+        return SubCategoryData;
+    }
 
-	function showCharts(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
-		d3.json(apiEndpoint, function (error, data){
-			if (yearArray.length == 3)
-				yearArray.shift();
+    function showCharts(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
+        d3.json(apiEndpoint, function(error, data) {
+            if (yearArray.length == 3)
+                yearArray.shift();
 
-			yearArray.unshift(container);
+            yearArray.unshift(container);
 
-			var filterdata = filterData(data, container, countryList[0]);
-			if (countryList[1] != undefined){
-				filterdata.push(filterData(data, container, countryList[1])[0]);
+            var filterdata = filterData(data, container, countryList[0]);
+            if (countryList[1] != undefined) {
+                filterdata.push(filterData(data, container, countryList[1])[0]);
             }
-			if (countryList[2] != undefined){
-				filterdata.push(filterData(data, container, countryList[2])[0]);
+            if (countryList[2] != undefined) {
+                filterdata.push(filterData(data, container, countryList[2])[0]);
             }
-			if (countryList[3] != undefined){
-				filterdata.push(filterData(data, container, countryList[3])[0]);
+            if (countryList[3] != undefined) {
+                filterdata.push(filterData(data, container, countryList[3])[0]);
             }
 
-			filterdata = GetData(filterdata, yearArray); // [container, '_1984', '_2015']);
-			var chart = drawGroupBarChart(filterdata, "#" + container, 'Countries', title, "Countries", yaxislabel);
-			chart.render();
-		});
-	};
+            filterdata = GetData(filterdata, yearArray); // [container, '_1984', '_2015']);
+            var chart = drawGroupBarChart(filterdata, "#" + container, 'Countries', title, "Countries", yaxislabel);
+            chart.render();
+        });
+    };
 
 
-// d3 main
-function populateDropdown(data, dropdownName, keyvalue) {
+    // d3 main
+    function populateDropdown(data, dropdownName, keyvalue) {
         var select = d3.select(dropdownName)
             .append("select"); // add new select element to current dropdown menu
 
@@ -388,7 +382,7 @@ function populateDropdown(data, dropdownName, keyvalue) {
     var countryArray = ["Select Country", "Select Country", "Select Country", "Select Country"]; // do I need array values?
 
     // import country list from life expectancy dataset
-    d3.json("https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", function (error, data) {
+    d3.json("https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", function(error, data) {
 
         // set each menu into a variable and populate it with the country list
         var select1 = populateDropdown(data, "#countryDD1", "life_expectancy");
@@ -398,29 +392,29 @@ function populateDropdown(data, dropdownName, keyvalue) {
         // set var to later grab row for specified country
         var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // do I need to pass Abk value??
 
-        select1.on("change", function (d) {
+        select1.on("change", function(d) {
             countryArray[0] = d3.select(this).property("value"); // on menu interaction, set country to selection
             changeCountry();
         });
-        select2.on("change", function (d) {
+        select2.on("change", function(d) {
             countryArray[1] = d3.select(this).property("value");
             changeCountry();
         });
-        select3.on("change", function (d) {
+        select3.on("change", function(d) {
             countryArray[2] = d3.select(this).property("value");
             //console.log(countryArray[2], "value of 3rd menu");
             changeCountry();
         });
     });
 
-	$("#global-avg").click(function(){
-		changeGlobalAvg();
-		console.log("clicked average");
-	});
+    $("#global-avg").click(function() {
+        changeGlobalAvg();
+        console.log("clicked average");
+    });
 
     function changeGlobalAvg() {
         if ($("#global-avg").prop('checked')) {
-    	//if (document.getElementById('global-avg').checked) {
+            //if (document.getElementById('global-avg').checked) {
             countryArray[3] = "Canada"; // change this to "Global Average" once I build it in FME
             changeCountry();
         } else {
@@ -439,7 +433,7 @@ function populateDropdown(data, dropdownName, keyvalue) {
         } else {
             // where is yearArray declared??
             yearArray = ["_" + birthYear, "_2015"] // hold formatted birth year plus "current" year into array
-            var countries = countryArray.filter(function (d) {
+            var countries = countryArray.filter(function(d) {
                 return d != "Select Country"; // filter all countries except blank values (match array initial state above)
             });
 
@@ -455,8 +449,8 @@ function populateDropdown(data, dropdownName, keyvalue) {
 
     //update text stats
     function textStats(yearArray) {
-        d3.json("https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", function (error, data){
-            console.log(data,"textStats data");
+        d3.json("https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", function(error, data) {
+            console.log(data, "textStats data");
         });
     }
 }); // end document.ready
