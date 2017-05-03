@@ -420,7 +420,7 @@ $(document).ready(function() {
             changeCountry();
         } else {
             // don't think I need this
-            CountryArray[3] = "Select Country";
+            countryArray[3] = "Select Country";
             changeCountry();
         }
     }
