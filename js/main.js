@@ -70,6 +70,16 @@ $(document).ready(function() {
 
         chart.containerName = container; // passed variable
         chart.data = data; // passed variable
+        console.log("present coming");
+        console.log(data[0]["Present"]);
+
+        /*
+        if (data[0]["Present"] <= 0 && data[0][$('#born').val()] <= 0) {
+            console.log("inside loop");
+            console.log(data[0]["Present"]);
+            return;
+        }
+        */
 
         lifeFacts[0] = data; //saving info to display in text fact area
         $(".bottom-info").show();
@@ -78,36 +88,42 @@ $(document).ready(function() {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.income-holder').hide();
             }
+            $('.income-holder').show();
             $('.income-present').html("$" + parseFloat(lifeFacts[0][0]["Present"]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             $('.income-past').html("$" + parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         } else if (chartTitle == 'Birth Rate') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.birth-holder').hide();
             }
+            $('.birth-holder').show();
             $('.birth-present').html(lifeFacts[0][0]["Present"]);
             $('.birth-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'Infant Mortality') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.infant-holder').hide();
             }
+            $('.infant-holder').show();
             $('.infant-present').html(lifeFacts[0][0]["Present"]);
             $('.infant-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'Life Expectancy') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.life-holder').hide();
             }
+            $('.life-holder').show();
             $('.life-present').html(lifeFacts[0][0]["Present"]);
             $('.life-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'School Completion') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.completion-holder').hide();
             }
+            $('.completion-holder').show();
             $('.completion-present').html(lifeFacts[0][0]["Present"]);
             $('.completion-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'Adult Literacy') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.literacy-holder').hide();
             }
+            $('.literacy-holder').show();
             $('.literacy-present').html(lifeFacts[0][0]["Present"]);
             $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);
         }
@@ -346,8 +362,18 @@ $(document).ready(function() {
             }
 
             filterdata = GetData(filterdata, yearArray); // [container, '_1984', '_2015']);
-            var chart = drawGroupBarChart(filterdata, "#" + container, 'Countries', title, "Countries", yaxislabel);
-            chart.render();
+            console.log("filtered data coming");
+            console.log(filterdata);
+
+            // if json contains blank entries in past and present years, don't chart it
+            if (filterdata[0]["Present"] > 0 && filterdata[0][$('#born').val()] > 0) {
+                console.log("This should be zero...");
+                console.log(filterdata[0]["Present"]);
+                console.log(filterdata[0][$('#born').val()]);
+                var chart = drawGroupBarChart(filterdata, "#" + container, 'Countries', title, "Countries", yaxislabel);
+                chart.render();
+            }
+
         });
     };
 

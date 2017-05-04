@@ -27,12 +27,14 @@ body {
     //max-width: 75em;
     margin: auto;
     padding: 20px;
+	width: 1200px;
 }
 
 .container-plain {
 	padding: 0;
     margin-left: -40px;
 }
+
 
 .navbar {
     border: 1px solid $border-color;
@@ -49,6 +51,13 @@ body {
     &:last-of-type {
         margin-bottom: 0;
     }
+	&.flex {
+		display: flex;
+    	flex-wrap: wrap!important;
+	}
+}
+.col {
+	max-width: 380px;
 }
 
 .input-holder {
@@ -101,7 +110,7 @@ h2, label {
     margin: 30px 0;
     font-size: 12pt;
 	li {
-		//display: none;
+		display: none;
 	}
 }
 .gray {
