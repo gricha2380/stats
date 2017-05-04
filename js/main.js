@@ -76,37 +76,37 @@ $(document).ready(function() {
 
         if (chartTitle == 'Income per person') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.income-holder').toggle();
+                $('.income-holder').hide();
             }
             $('.income-present').html("$" + parseFloat(lifeFacts[0][0]["Present"]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             $('.income-past').html("$" + parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         } else if (chartTitle == 'Birth Rate') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.birth-holder').toggle();
+                $('.birth-holder').hide();
             }
             $('.birth-present').html(lifeFacts[0][0]["Present"]);
             $('.birth-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'Infant Mortality') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.infant-holder').toggle();
+                $('.infant-holder').hide();
             }
             $('.infant-present').html(lifeFacts[0][0]["Present"]);
             $('.infant-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'Life Expectancy') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.completion-holder').toggle();
+                $('.life-holder').hide();
             }
             $('.life-present').html(lifeFacts[0][0]["Present"]);
             $('.life-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'School Completion') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.completion-holder').toggle();
+                $('.completion-holder').hide();
             }
-            $('.life-present').html(lifeFacts[0][0]["Present"]);
-            $('.life-past').html(lifeFacts[0][0][$('#born').val()]);
+            $('.completion-present').html(lifeFacts[0][0]["Present"]);
+            $('.completion-past').html(lifeFacts[0][0][$('#born').val()]);
         } else if (chartTitle == 'Adult Literacy') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
-                $('.literacy-holder').toggle();
+                $('.literacy-holder').hide();
             }
             $('.literacy-present').html(lifeFacts[0][0]["Present"]);
             $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);
