@@ -1,201 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.png">
-
     <title>Incremental Progress</title>
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
     <link href="css/styleguide.css" rel="stylesheet">
-
     <link href="css/main.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/d3.min.js"></script>
     <script src="js/d3.tip.js"></script>
+    <script src="js/selectize.min.js"></script>
+    <script src="js/main.js"></script>
+</head>
 
-
-      <script src="js/main.js"></script>
-
-  </head>
-
-  <body>
-
+<body>
     <nav class="navbar">
-      <div class="container">
-        <div class="info-pane">
-        	<div class="inner-container">
-        		<div class="entry-header">
-        			<h1 class="info-pane-name">Incremental Progress</h1>
-        		</div>
-        		<div class="collapse-info-pane-wrapper">
-        			<button class="btn-transparent collapse-info-pane-btn">
-        				More Info
-        					<span class="socrata-icon socrata-icon-arrow-down">
-        						<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-								    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
-								    <title>arrow-down</title>
-								    <desc>Created with Sketch.</desc>
-								    <defs></defs>
-								    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-								        <g id="arrow-down" fill="#000000">
-								            <polygon id="Shape" points="972 310.5 914.5 253 512 655.5 109.5 253 52 310.5 511.998203 770.5"></polygon>
-								        </g>
-								    </g>
-								</svg>
-        					</span>
-        			</button>
-                    <div class="info-content">
-                    How much has the world improved since you were born?
+        <div class="container">
+            <div class="info-pane">
+                <div class="inner-container">
+                    <div class="entry-header">
+                        <h1 class="info-pane-name">Incremental Progress</h1>
                     </div>
-        		</div>
-        	</div>
+                    <div class="collapse-info-pane-wrapper">
+                        <button class="btn-transparent collapse-info-pane-btn">
+                            More Info
+                            <span class="socrata-icon socrata-icon-arrow-down">
+                                <svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
+                                    <title>arrow-down</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs></defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="arrow-down" fill="#000000">
+                                            <polygon id="Shape" points="972 310.5 914.5 253 512 655.5 109.5 253 52 310.5 511.998203 770.5"></polygon>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="info-content">
+                            How much has the world improved since you were born?
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </nav>
-
     <div class="container">
-
-      <div class="body-holder">
-        <div class="control-div">
-            <form>
-                <div class="row year-born">
-                    <div class="input-holder">
-                        <label for="name">What year were you born?</label>
-                        <input type="number" id="born" name="born" min="1950" max="2017" value="1990" tabindex="1">
+        <div class="body-holder">
+            <div class="control-div">
+                <form class="full-width">
+                    <div class="row year-born">
+                        <div class="input-holder">
+                            <label for="name">What year were you born?</label>
+                            <input type="number" id="born" name="born" min="1950" max="2017" value="1990" tabindex="1">
+                        </div>
                     </div>
+                    <div class="row country-row">
+                        <div class="control-group col-lg-4" >
+                            <label for="countryMenu1">Choose Country</label>
+                            <select id="countryMenu1" class="country-menuq" data-placeholder="Select Country" style="display:none">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                        <div class="control-group col-lg-4" >
+                            <label for="countryMenu2">Choose Country</label>
+                            <select id="countryMenu2" class="country-menuq" data-placeholder="Select Country" style="display:none">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                        <div class="control-group col-lg-4" >
+                            <label for="countryMenu3">Choose Country</label>
+                            <select id="countryMenu3" class="country-menuq" data-placeholder="Select Country" style="display:none">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="display:none">
+                        <div class="input-holder">
+                            <label for="name">Select a Country</label>
+                            <div id="country1" class="country-menu" tabindex="2">
+                                <span class="country-choice">Select...</span>
+                                <ul class="dropdown">
+                                    <li country="none">
+                                        <a href="#">None</a>
+                                    </li>
+                                    <li country="Grenada">
+                                        <a href="#">Grenada</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">United States</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="input-holder">
+                            <div id="country2" class="country-menu" tabindex="3">
+                                <span class="country-choice">Select...</span>
+                                <ul class="dropdown">
+                                    <li country="none">
+                                        <a href="#">None</a>
+                                    </li>
+                                    <li country="Grenada">
+                                        <a href="#">Grenada</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">United States</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="input-holder">
+                            <div id="country3" class="country-menu" tabindex="4">
+                                <span class="country-choice">Select...</span>
+                                <ul class="dropdown">
+                                    <li country="none">
+                                        <a href="#">None</a>
+                                    </li>
+                                    <li country="Grenada">
+                                        <a href="#">Grenada</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">United States</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row globalAvg">
+                        <input type="checkbox" name="global-avg" id="global-avg">
+                        <label for="global-avg">Global Avg</label>
+                    </div>
+                </form>
+            </div>
+            <div class="legend-holder" id="legend-master">
+                <div class="legend-block present">
+                    <span class="text-label">Present</span>
+                    <span class="color"></span>
                 </div>
-                <div class="row" style="display:none;">
-					<div class="input-holder">
-						<label for="name">Select a Country</label>
-						<div id="country1" class="country-menu" tabindex="2">
-							<span class="country-choice">Select...</span>
-							<ul class="dropdown">
-								<li country="none">
-									<a href="#">None</a>
-								</li>
-								<li country="Grenada">
-									<a href="#">Grenada</a>
-								</li>
-								<li>
-									<a href="#">United States</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="input-holder">
-						<div id="country2" class="country-menu" tabindex="3">
-							<span class="country-choice">Select...</span>
-							<ul class="dropdown">
-								<li country="none">
-									<a href="#">None</a>
-								</li>
-								<li country="Grenada">
-									<a href="#">Grenada</a>
-								</li>
-								<li>
-									<a href="#">United States</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="input-holder">
-						<div id="country3" class="country-menu" tabindex="4">
-							<span class="country-choice">Select...</span>
-							<ul class="dropdown">
-								<li country="none">
-									<a href="#">None</a>
-								</li>
-								<li country="Grenada">
-									<a href="#">Grenada</a>
-								</li>
-								<li>
-									<a href="#">United States</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-
+                <div class="legend-block past">
+                    <span class="text-label"></span>
+                    <span class="color"></span>
                 </div>
-                <!-- temporary fields -->
-        <div class="row">
-            <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="InputName">Chose Country</label>
-                        <div class="input-group">
-                            <div id="countryDD1" style="float:left;  padding-right: 5px;"> </div>
+            </div>
+            <div class="row">
+                <div class="chart-holder">
+                    <!-- Chart Containers -->
+                    <div class="container-plain">
+                        <div class="row flex">
+                            <div class="col">
+                                <div id="life_expectancy"></div>
+                            </div>
+                            <div class="col">
+                                <div id="infant_mortality_rate"></div>
+                            </div>
+                            <div class="col">
+                                <div id="primary_completion_rate_total_of_relevant_age_group"></div>
+                            </div>
+                            <div class="col">
+                                <div id="adult_15_literacy_rate_total"></div>
+                            </div>
+                            <div class="col">
+                                <div id="gdp_per_capita_ppp"></div>
+                            </div>
+                            <div class="col">
+                                <div id="birth_rate"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="InputName">Chose Country</label>
-                        <div class="input-group">
-                            <div id="countryDD2" style="float:left;  padding-right: 5px;"> </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="InputName">Chose Country</label>
-                        <div class="input-group">
-                            <div id="countryDD3" style="float:left;  padding-right: 5px;"> </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-                <div class="row globalAvg">
-                    <input type="checkbox" name="global-avg" id="global-avg">
-                    <label for="global-avg">Global Avg</label>
-
-                </div>
-            </form>
-        </div>
-        <div class="legend-holder"></div>
-
-
-                <div class="row">
-                    <div class="chart-holder">
-
-                            <!-- Chart Containers -->
-    <div class="container-plain">
-        <div class="row">
-            <div class="col-lg-4">
-                <div id="life_expectancy"></div>
-            </div>
-            <div class="col-lg-4">
-                <div id="infant_mortality_rate"></div>
-            </div>
-            <div class="col-lg-4">
-                <div id="primary_completion_rate_total_of_relevant_age_group"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div id="adult_15_literacy_rate_total"></div>
-            </div>
-            <div class="col-lg-4">
-                <div id="gdp_per_capita_ppp"></div>
-            </div>
-            <div class="col-lg-4">
-                <div id="birth_rate"></div>
-            </div>
-        </div>
-    </div>
-
-                    </div>
                 <div class="bottom-info">
                     <div class="text-stats">
                         <span class="title">Since your birth:</span>
@@ -221,46 +203,52 @@
                         </ul>
                     </div>
                     <div class="social-share">
-                    <!-- Facebook SDK -->
-                    <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=162830337136711";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
+                        <!-- Facebook SDK -->
+                        <div id="fb-root"></div>
+                        <script>
+                        (function(d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=162830337136711";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));
+                        </script>
                         <h2>Share the good news.</h2>
                         <div class="row">
                             <ul>
                                 <li class="facebook">
-<div class="fb-share-button" data-href="https://gricha2380.github.io/stats/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgricha2380.github.io%2Fstats%2F&amp;src=sdkpreparse">Share</a></div>
-</li>
+                                    <div class="fb-share-button" data-href="https://gricha2380.github.io/stats/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgricha2380.github.io%2Fstats%2F&amp;src=sdkpreparse">Share</a></div>
+                                </li>
                                 <li class="twitter">
-                                    <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="How much has the world improved since you were born?" data-hashtags="progress" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                    <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="How much has the world improved since you were born?" data-hashtags="progress" data-show-count="false">Tweet</a>
+                                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
-                </div>
-
-      </div>
-
-    </div><!-- /.container -->
-
-
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
     <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-97412676-2', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-97412676-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</body>
 
-</script>
-  </body>
 </html>

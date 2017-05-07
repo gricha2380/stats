@@ -7,19 +7,53 @@ $(document).ready(function() {
         $(".info-content").toggle();
     });
 
-$("#born").change(function(){
-    if ($("#countryMenu1").val().length > 0) {
-        console.log($("#countryMenu1").val().length > 0);
-        changeCountry();
-    } else {
-        console.log("too short");
-    }
+    // fake menu function. I don't understand this.
+    // https://tympanus.net/codrops/2012/10/04/custom-drop-down-list-styling/
+    // I should rebuild this as a normal function without prototyping
+    var menuContent;
+    $(".country-menu").click(function() {
+        menuContent = new makeDropdown($(this));
+        $(this).toggleClass('active');
+        return false;
+    });
 
-});
+    function makeDropdown(element) {
+        this.menuContent = element;
+        this.placeholder = this.menuContent.children('span');
+        this.options = this.menuContent.find('ul.dropdown > li');
+        this.val = '';
+        this.index = -1;
+        this.initEvents();
+    }
+    makeDropdown.prototype = {
+        initEvents: function() {
+            var obj = this;
+            obj.options.on('click', function() {
+                var opt = $(this);
+                obj.val = opt.text();
+                obj.index = opt.index();
+                obj.placeholder.text(obj.val);
+
+                //change text stat value
+                if (opt.text !== "None") {
+                    $(".life-country").text(opt.text());
+                };
+
+            });
+        },
+        getValue: function() {
+            return this.val;
+        },
+        getIndex: function() {
+            return this.index;
+        }
+    }
 
     // d3 functions
     // d3 v3.5.17
 
+
+    // I don't know what the fuck is happening in here.
 
     // bar chart configuration
     function drawGroupBarChart(data, container, groupby, chartTitle, xaxislabel, yaxislabel) {
@@ -36,16 +70,12 @@ $("#born").change(function(){
 
         chart.containerName = container; // passed variable
         chart.data = data; // passed variable
-
-        /*
-        if (data[0]["Present"] <= 0 && data[0][$('#born').val()] <= 0) {
-            console.log("inside loop");
-            console.log(data[0]["Present"]);
-            return;
-        }
-        */
+        //console.log("present coming");
+        //console.log(data[0]["Present"]);
 
         lifeFacts[0] = data; //saving info to display in text fact area
+        console.log("here's what life facts show");
+        console.log(lifeFacts[0]);
         $(".bottom-info").show();
 
         if (chartTitle == 'Income per person') {
@@ -202,7 +232,7 @@ $("#born").change(function(){
                 .on("click", function(d) {
                     d3.select("#GroupChart2").select("svg").remove();
                     Call2ndChart(d.Category);
-                    //console.log("clicking a bar");
+                    console.log("clicking a bar");
                 });
 
             state.selectAll("rect")
@@ -226,21 +256,13 @@ $("#born").change(function(){
                 .on("mouseover", chart.tip.show) // show tooltip
                 .on("mouseout", chart.tip.hide);
 
-                console.log(dataKeys.slice().reverse());
-
-/*
             var legend = chart.svg.selectAll(".legend")
-            //var legend = d3.select("#legend-master")
-            //var legend = chart.svg.select("#legend-master")
-                //.text("laughing")
-                //.data()
                 .data(dataKeys.slice().reverse())
                 .enter().append("g")
-                .attr("class", "legenda")
+                .attr("class", "legend")
                 .attr("transform", function(d, i) {
                     return "translate(60," + i * 20 + ")";
                 })
-                console.log(legend,"this is the legend");
                 .on("click", function(d) {
 
                 });
@@ -259,9 +281,7 @@ $("#born").change(function(){
                 .text(function(d) {
                     return d;
                 });
-*/
         };
-
 
         // Wrap text
         function wrap(text, width) {
@@ -301,26 +321,34 @@ $("#born").change(function(){
         return filterdata;
     }
 
+    // group the bars
     function GetData(data, properties) {
         SubCategoryData = [];
         data.forEach(function(d) {
-            if (d[properties[1]] == undefined)
+            if (d[properties[1]] == undefined){
                 d[properties[1]] = "0";
-            if (d[properties[2]] == undefined)
+            }
+            if (d[properties[2]] == undefined){
                 d[properties[2]] = "0";
+            }
             var Obj = {};
             Obj["Countries"] = d[properties[0]];
             Obj[properties[1].replace('_', '')] = d[properties[1]];
             Obj['Present'] = d[properties[2]];
             SubCategoryData.push(Obj);
+            console.log("This is the content of SubCategoryData",SubCategoryData);
         });
         return SubCategoryData;
     }
 
     function showCharts(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
-        $(".legend-block.past .text-label").text($("#born").val());
-        $(".legend-holder").show();
+        var avgQueryPast = apiEndpoint + '?$select=avg(' + yearArray[0] + ')';
+        var avgQueryPresent = apiEndpoint + '?$select=avg(' + yearArray[1] + ')';
+        var avgArray = [];
+        var yearPast = yearArray[0];
+        var avgResultsPast = '', avgResultsPresent = '';
 
+        // alert(avgQuery);
         d3.json(apiEndpoint, function(error, data) {
             if (yearArray.length == 3)
                 yearArray.shift();
@@ -328,13 +356,13 @@ $("#born").change(function(){
             yearArray.unshift(container);
 
             var filterdata = filterData(data, container, countryList[0]); // new var to hold json contents and dropdown selection
-            if (countryList[1] != undefined) {
+            if (countryList[1] != undefined) { // if 1 dropdown menu is filled
                 filterdata.push(filterData(data, container, countryList[1])[0]);
             }
-            if (countryList[2] != undefined) {
+            if (countryList[2] != undefined) { // if 2 dropdown menus are filled
                 filterdata.push(filterData(data, container, countryList[2])[0]);
             }
-            if (countryList[3] != undefined) {
+            if (countryList[3] != undefined) { // if 3 dropdown menu are filled
                 filterdata.push(filterData(data, container, countryList[3])[0]);
             }
 
@@ -342,12 +370,22 @@ $("#born").change(function(){
             console.log("filtered data coming");
             console.log(filterdata);
 
+            console.log(avgArray[0]);
+
+
             // if json contains blank entries in past and present years, don't chart it
             if (filterdata[0]["Present"] > 0 && filterdata[0][$('#born').val()] > 0) {
-                console.log("This should be zero...");
-                console.log(filterdata[0]["Present"]);
-                console.log(filterdata[0][$('#born').val()]);
+                //console.log("This should be zero...");
+                //console.log(filterdata[0]["Present"]);
+                //console.log(filterdata[0][$('#born').val()]);
                 var chart = drawGroupBarChart(filterdata, "#" + container, 'Countries', title, "Countries", yaxislabel);
+                chart.render();
+            }
+
+            if ($("#global-avg").prop('checke')) {
+                //if (document.getElementById('global-avg').checked) {
+                countryArray[3] = "Global Average"; // change this to "Global Average" once I build it in FME
+                var chart = drawGroupBarChartMini(filterdata, "#" + container, 'Countries', title, "Countries", yaxislabel);
                 chart.render();
             }
 
@@ -355,15 +393,45 @@ $("#born").change(function(){
     };
 
 
+    // not actually using this
+    function showAvg(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
+        var avgQueryPast = apiEndpoint + '?$select=avg(' + yearArray[0] + ')';
+        var avgQueryPresent = apiEndpoint + '?$select=avg(' + yearArray[1] + ')';
+        var avgArray = [];
+        var yearPast = yearArray[0];
+        var avgResultsPast = '', avgResultsPresent = '';
+
+        var avgQuery = apiEndpoint+"?select=avg("+yearArray[0]+")"
+      // insert: if global avg checkbox turned
+            if ($("#global-avg").prop('checked')) {
+                d3.json(avgQueryPast, function(error, data) {
+                    //console.log(data,"this is avgQueryPast");
+                    avgResultsPast = data;
+                })
+
+                d3.json(avgQueryPresent, function(error, data) {
+                    avgResultsPresent = data;
+                })
+
+                avgArray[0] = [{
+                    yearPast: avgResultsPast, // this is old year value
+                    Countries: "Global Average",
+                    Present: avgResultsPresent // this nees to be current
+                }];
+            };
+            console.log(avgArray[0]);
+            countryArray[3] = "Global Average"; // change this to "Global Average" once I build it in FME
+            var chart = drawGroupBarChart(avgArray[0], "#" + container, 'Countries', title, "Countries", yaxislabel);
+            chart.render();
+    };
+
+
     // d3 main
-    // create dropdown contents from json rows
-    function populateMenu(data, dropdownName, keyvalue) {
-        //var select = d3.select(dropdownName + " .menu-content ul")
+    function populateDropdown(data, dropdownName, keyvalue) {
         var select = d3.select(dropdownName)
-            //.append("select"); // add new select element to current dropdown menu
+            .append("select"); // add new select element to current dropdown menu
 
         select.append("option") // add new option element inside the menu
-            //.attr("class", "option")
             .attr("value", function() {
                 return 'Select Country' // value for option
             })
@@ -382,7 +450,6 @@ $("#born").change(function(){
                     });
             }
         }
-
         return select;
     }
 
@@ -393,37 +460,26 @@ $("#born").change(function(){
     d3.json("https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", function(error, data) {
 
         // set each menu into a variable and populate it with the country list
-        //var select1 = populateDropdown(data, "#countryDD1", "life_expectancy");
-        var select1 = populateMenu(data, "#countryMenu1", "life_expectancy");
-        var select2 = populateMenu(data, "#countryMenu2", "life_expectancy");
-        var select3 = populateMenu(data, "#countryMenu3", "life_expectancy");
+        var select1 = populateDropdown(data, "#countryDD1", "life_expectancy");
+        var select2 = populateDropdown(data, "#countryDD2", "life_expectancy");
+        var select3 = populateDropdown(data, "#countryDD3", "life_expectancy");
 
-        // initiate fancy menu
-        $('#countryMenu1').selectize({
-            // normal on change event isn't available for divs. This triggers changeCountry function
-            onChange: function(r) {
-                countryArray[0] = d3.select("#countryMenu1").property("value"); // on menu interaction, set country to selection
-                changeCountry();
-            }
-        });
-
-        $('#countryMenu2').selectize({
-            onChange: function(r) {
-                countryArray[1] = d3.select("#countryMenu2").property("value"); // on menu interaction, set country to selection
-                changeCountry();
-            }
-        });
-
-        $('#countryMenu3').selectize({
-            onChange: function(r) {
-                countryArray[2] = d3.select("#countryMenu3").property("value"); // on menu interaction, set country to selection
-                changeCountry();
-            }
-        });
         // set var to later grab row for specified country
-        var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // do I really need to pass Abk value??
+        var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // do I need to pass Abk value??
 
-
+        select1.on("change", function(d) {
+            countryArray[0] = d3.select(this).property("value"); // on menu interaction, set country to selection
+            changeCountry();
+        });
+        select2.on("change", function(d) {
+            countryArray[1] = d3.select(this).property("value");
+            changeCountry();
+        });
+        select3.on("change", function(d) {
+            countryArray[2] = d3.select(this).property("value");
+            //console.log(countryArray[2], "value of 3rd menu");
+            changeCountry();
+        });
     });
 
     $("#global-avg").click(function() {
@@ -435,7 +491,17 @@ $("#born").change(function(){
         if ($("#global-avg").prop('checked')) {
             //if (document.getElementById('global-avg').checked) {
             countryArray[3] = "Canada"; // change this to "Global Average" once I build it in FME
-            changeCountry();
+            // changeCountry();
+            //showAvg();
+            var birthYear = +d3.select("#born").property("value");
+            yearArray = ["_" + birthYear, "_2011"] // hold formatted birth year plus "current" year into array
+            showAvg("life_expectancy", "https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", "Global Avg", "Life Expectancy", yearArray, "years");
+            showAvg("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", "Global Avg", "Infant Mortality", yearArray, "infants");
+            showAvg("primary_completion_rate_total_of_relevant_age_group", "https://gregor.demo.socrata.com/resource/nx2u-97up.json", "Global Avg", "School Completion", yearArray, "years");
+            showAvg("adult_15_literacy_rate_total", "https://gregor.demo.socrata.com/resource/5dhh-qisz.json", "Global Avg", "Adult Literacy", yearArray, "%");
+            showAvg("gdp_per_capita_ppp", "https://gregor.demo.socrata.com/resource/uzdz-shpf.json", "Global Avg", "Income per person", yearArray, "dollars");
+            showAvg("birth_rate", "https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", "Global Avg", "Birth Rate", yearArray, "births");
+            //https://gregor.demo.socrata.com/resource/qpzx-d9up.json?$select=avg(_1984)
         } else {
             // don't think I need this
             countryArray[3] = "Select Country";
