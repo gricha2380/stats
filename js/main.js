@@ -1,4 +1,8 @@
 $(document).ready(function() {
+
+    $(".spinner-row").delay(1500).fadeOut();
+    $(".dynamic-input").delay(1500).fadeIn();
+
     // text stat vars
     var lifeCountry, lifePast, lifePresent, lifeFacts = [];
 
@@ -478,4 +482,20 @@ $(document).ready(function() {
             console.log(data, "textStats data");
         });
     }
+
+    // jquery modal
+    $(".about").click(function(){
+        $.ajax({
+            url: "about.html",
+            success: function(result){
+                $(".about-content").html(result);
+                $(".about-content").addClass("modal-open");
+                $(".about-content").fadeIn("fast");
+            }});
+    });
+    $(".about-content").click(function(){
+        $(this).fadeOut("fast");
+    });
+
+
 }); // end document.ready
