@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-    $(".spinner-row").delay(1500).fadeOut();
-    $(".dynamic-input").delay(1500).fadeIn();
+    $(".spinner-row").delay(1100).fadeOut();
+    $(".dynamic-input").delay(1100).fadeIn();
 
     // text stat vars
     var lifeCountry, lifePast, lifePresent, lifeFacts = [];
