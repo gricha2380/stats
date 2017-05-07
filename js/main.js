@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
     // hide loader after 1.1 seconds
-    $(".spinner-row").delay(1100).fadeOut();
+    $(".spinner-row").delay(1000).fadeOut();
 
     // then show div waiting behind it
-    $(".dynamic-input").delay(1100).fadeIn();
+    $(".dynamic-input").delay(1000).fadeIn();
 
     // initalize text stat variables
     var lifeCountry, lifePast, lifePresent, lifeFacts = [];
