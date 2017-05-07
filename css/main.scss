@@ -62,7 +62,16 @@ body {
 .col {
 	max-width: 380px;
 }
-
+.bad-date {
+	display: none;
+	p.btn-error {
+		margin: -10px 0 -11px;
+		&:hover{
+			background: none;
+			color: #ce6565;
+		}
+	}
+}
 .about {
 	float: right;
     padding: 10px 15px;
@@ -448,6 +457,9 @@ input[type="text"],input[type="number"] {
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+	div {
+		margin-top: 10px;
+	}
 }
 
 /* Creates a small triangle extender for the tooltip */
