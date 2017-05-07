@@ -7,13 +7,19 @@ $(document).ready(function() {
         $(".info-content").toggle();
     });
 
+$("#born").change(function(){
+    if ($("#countryMenu1").val().length > 0) {
+        console.log($("#countryMenu1").val().length > 0);
+        changeCountry();
+    } else {
+        console.log("too short");
+    }
 
+});
 
     // d3 functions
     // d3 v3.5.17
 
-
-    // I don't know what the fuck is happening in here.
 
     // bar chart configuration
     function drawGroupBarChart(data, container, groupby, chartTitle, xaxislabel, yaxislabel) {
@@ -30,8 +36,6 @@ $(document).ready(function() {
 
         chart.containerName = container; // passed variable
         chart.data = data; // passed variable
-        console.log("present coming");
-        console.log(data[0]["Present"]);
 
         /*
         if (data[0]["Present"] <= 0 && data[0][$('#born').val()] <= 0) {
@@ -198,7 +202,7 @@ $(document).ready(function() {
                 .on("click", function(d) {
                     d3.select("#GroupChart2").select("svg").remove();
                     Call2ndChart(d.Category);
-                    console.log("clicking a bar");
+                    //console.log("clicking a bar");
                 });
 
             state.selectAll("rect")
@@ -316,7 +320,7 @@ $(document).ready(function() {
     function showCharts(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
         $(".legend-block.past .text-label").text($("#born").val());
         $(".legend-holder").show();
-        //$("#born").val();
+
         d3.json(apiEndpoint, function(error, data) {
             if (yearArray.length == 3)
                 yearArray.shift();
