@@ -1,40 +1,56 @@
 $(document).ready(function() {
 
+    // hide loader after 1.1 seconds
     $(".spinner-row").delay(1100).fadeOut();
+
+    // then show div waiting behind it
     $(".dynamic-input").delay(1100).fadeIn();
 
-    // text stat vars
+    // initalize text stat variables
     var lifeCountry, lifePast, lifePresent, lifeFacts = [];
 
-    // toggle "more info" button
+    // toggle for "more info" carrot
     $(".collapse-info-pane-btn").click(function() {
         $(".info-content").toggle();
     });
 
+    // Monitor year field to do stuff
     $("#born").change(function(){
+        // Validate year input
+        if ($("#born").val()<1950 || $("#born").val()>2011) {
+            $(".bad-date").show();
+            $(".bad-date").html('<p class="btn-error btn-inverse">Year must be between 1950 and 2011</p>');
+        } else {
+            $(".bad-date").hide();
+        }
+
+        // Trigger chart refresh if there's a country selected
         if ($("#countryMenu1").val().length > 0) {
-            console.log($("#countryMenu1").val().length > 0);
+            //console.log($("#countryMenu1").val().length > 0);
             changeCountry();
         } else {
-            console.log("too short");
+
         }
     });
 
+/*
     $(".selectize-input.items").change(function(){
         if ($(".selectize-input.items.not-full")) {
             alert("Value ain't nothin'");
         };
     });
+*/
 
-
-    // d3 functions
-    // d3 v3.5.17
+    // Main d3 functions
+    // using d3.js v3.5.17
 
 
     // bar chart configuration
     function drawGroupBarChart(data, container, groupby, chartTitle, xaxislabel, yaxislabel) {
         d3.select(container).select("svg").remove(); // d3 standard. start by selecting & clearing new element
         var chart = {}; // empty object
+
+        // spinning up lots of object properties because d3 likes that, I guess
         chart.margin = { // positioning
                 top: 24,
                 right: 75,
@@ -44,25 +60,20 @@ $(document).ready(function() {
             chart.width = 400 - chart.margin.left - chart.margin.right,
             chart.height = 350 - chart.margin.top - chart.margin.bottom;
 
-        chart.containerName = container; // passed variable
-        chart.data = data; // passed variable
-
-        /*
-        if (data[0]["Present"] <= 0 && data[0][$('#born').val()] <= 0) {
-            console.log("inside loop");
-            console.log(data[0]["Present"]);
-            return;
-        }
-        */
+        chart.containerName = container; // grab chart name from passed variable
+        chart.data = data; // assign values from passed variable
 
         lifeFacts[0] = data; //saving info to display in text fact area
-        $(".bottom-info").show();
+        $(".bottom-info").show(); // show text facts, now that theres data
 
-        if (chartTitle == 'Income per person') {
+        // conditionally hide the text facts when the charts have no data
+        // When chart is available, grab year born and format values properly
+        if (chartTitle == 'Income Per Person') {
             if (lifeFacts[0][0]["Present"] <= 0 && lifeFacts[0][0][$('#born').val()] <= 0) {
                 $('.income-holder').hide();
             }
             $('.income-holder').show();
+            // formatting currency is annoying.
             $('.income-present').html("$" + parseFloat(lifeFacts[0][0]["Present"]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             $('.income-past').html("$" + parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         } else if (chartTitle == 'Birth Rate') {
@@ -102,10 +113,10 @@ $(document).ready(function() {
             $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);
         }
 
-        chart.group = groupby; // passed variable
+        chart.group = groupby; // grab group from passed variable. Always group by country
 
-        chart.x0 = d3.scale.ordinal() // ordinal scale for discrete values of strings
-            .rangeRoundBands([-5, chart.width], .1);
+        chart.x0 = d3.scale.ordinal() // ordinal scale because this is a discrete values of strings
+            .rangeRoundBands([-5, chart.width], .1); // interval, padding, outer padding http://d3-wiki.readthedocs.io/zh_CN/master/Ordinal-Scales/
 
         chart.x1 = d3.scale.ordinal();
 
@@ -113,33 +124,37 @@ $(document).ready(function() {
             .range([chart.height, 0]);
 
         chart.color = d3.scale.ordinal()
-            .range(['#5b9ec9', '#7eba98', '#2d82af', '#98d277', '#52af43', '#dc9a88']); // chart colors
+            .range(['#5b9ec9', '#7eba98', '#2d82af', '#98d277', '#52af43', '#dc9a88']); // chart colors. Only using first two
 
-        chart.xAxis = d3.svg.axis()
-            .scale(chart.x0)
+        chart.xAxis = d3.svg.axis() // Create a new default axis.
+            .scale(chart.x0) //use ordinal scale
             .orient("bottom");
 
         chart.yAxis = d3.svg.axis()
-            .scale(chart.y)
+            .scale(chart.y) // use linear scale
             .orient("left")
-            .tickFormat(d3.format(".2s"));
+            .tickFormat(d3.format(".2s")); // show two significant digits
 
-        chart.tip = d3.tip()
-            .attr('class', 'd3-tip')
-            .offset([-10, 0])
-            .html(function(d) { // I can clean up this CSS
-                return "<strong>Year:</strong> <span  style='color:white; font: 19px;'>" + d.name + "</span></br></br>" +
-                    "<strong>Value:</strong> <span style='color:white'>" + d.value + ' ' + yaxislabel + "</span>";
+        chart.tip = d3.tip() // initiate tool tips
+            .attr('class', 'd3-tip') // apply class for formatting
+            .offset([-10, 0]) // position
+            .html(function(d) { // Tool tip output and format
+                return "Year: " + d.name +
+                    "<div>Value: " + Math.round(d.value * 100) / 100 + ' ' + yaxislabel + "</div>";
             });
 
+        // define chart
         chart.svg = d3.select(chart.containerName).append("svg")
             .attr("width", chart.width + chart.margin.left + chart.margin.right)
             .attr("height", chart.height + chart.margin.top + chart.margin.bottom)
             .append("g")
             .attr("transform", "translate(" + chart.margin.left + "," + chart.margin.top + ")");
 
+        // attach tool tip
         chart.svg.call(chart.tip);
 
+        // style chart labels
+        // note: no longer using this
         chart.svg.append("text")
             .attr("x", (chart.width / 2))
             .attr("y", 2 - (chart.margin.top / 2))
@@ -149,11 +164,17 @@ $(document).ready(function() {
             .style("fill", "#5e5e5e")
             .text(chartTitle);
 
+        // I don't really know how or why this works.
+        // This logic was copied from other examples
         chart.render = function() {
+
+            // grabs the first entry in data array
             var dataKeys = d3.keys(data[0]).filter(function(key) {
+                // returns an array containing all properties except group
                 return key != chart.group;
             });
 
+            // create a new key value pair for everything in the filtered results
             data.forEach(function(d) {
                 d.ages = dataKeys.map(function(name) {
                     return {
@@ -163,10 +184,12 @@ $(document).ready(function() {
                 });
             });
 
+            // Set scale input to group value
             chart.x0.domain(data.map(function(d) {
                 return d[chart.group];
             }));
 
+            // Set scale in a fancier way than I understand
             chart.x1.domain(dataKeys).rangeRoundBands([20, chart.x0.rangeBand()]);
             chart.y.domain([0, d3.max(data, function(d) {
                 return d3.max(d.ages, function(d) {
@@ -174,6 +197,7 @@ $(document).ready(function() {
                 });
             })]);
 
+            // apply the magic on x axis
             chart.svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(10," + chart.height + ")")
@@ -192,6 +216,7 @@ $(document).ready(function() {
             .text(xaxislabel);
             */
 
+            // apply the magic on y axis
             chart.svg.append("g")
                 .attr("class", "y axis")
                 //.call(chart.yAxis) // No y axis is necessary
@@ -210,8 +235,8 @@ $(document).ready(function() {
                     return "translate(" + (chart.x0(d[chart.group])) + ",0)";
                 })
                 .on("click", function(d) {
-                    d3.select("#GroupChart2").select("svg").remove();
-                    Call2ndChart(d.Category);
+                    //d3.select("#GroupChart2").select("svg").remove();
+                    //Call2ndChart(d.Category);
                     //console.log("clicking a bar");
                 });
 
@@ -238,7 +263,9 @@ $(document).ready(function() {
 
                 console.log(dataKeys.slice().reverse());
 
-/*
+/*          // Legend? I don't need no stinkin' legend
+            // Instead I hard coded a single legend in the HTML because it looks cleaner
+
             var legend = chart.svg.selectAll(".legend")
             //var legend = d3.select("#legend-master")
             //var legend = chart.svg.select("#legend-master")
@@ -273,7 +300,8 @@ $(document).ready(function() {
         };
 
 
-        // Wrap text
+        // Wrap text, used in appending axis labels
+        // More fancy boilerplate content
         function wrap(text, width) {
             text.each(function() {
                 var text = d3.select(this),
@@ -303,7 +331,9 @@ $(document).ready(function() {
     }
 
 
-    // Utility
+    // Utility section
+
+    // grab the correct row for the specified country
     function filterData(data, category, value) {
         var filterdata = data.filter(function(row) {
             return row[category] == value;
@@ -311,35 +341,42 @@ $(document).ready(function() {
         return filterdata;
     }
 
+    // show values for relevant years
     function GetData(data, properties) {
         SubCategoryData = [];
         data.forEach(function(d) {
-            if (d[properties[1]] == undefined)
+            // don't freak out if there's missing data
+            if (d[properties[1]] == undefined){
                 d[properties[1]] = "0";
-            if (d[properties[2]] == undefined)
+            }
+            if (d[properties[2]] == undefined){
                 d[properties[2]] = "0";
+            }
             var Obj = {};
-            Obj["Countries"] = d[properties[0]];
-            Obj[properties[1].replace('_', '')] = d[properties[1]];
-            Obj['Present'] = d[properties[2]];
+            Obj["Countries"] = d[properties[0]]; // make array to hold country names
+            Obj[properties[1].replace('_', '')] = d[properties[1]]; // cleaning the data. I could no it in FME if necessary
+            Obj['Present'] = d[properties[2]]; // hold value for current year
             SubCategoryData.push(Obj);
         });
         return SubCategoryData;
     }
 
+    // pull down the data
     function showCharts(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
+        // set legend to year born field
         $(".legend-block.past .text-label").text($("#born").val());
-        $(".legend-holder").show();
+        $(".legend-holder").show(); // show legend now that the charts are coming
 
         d3.json(apiEndpoint, function(error, data) {
-            if (yearArray.length == 3)
-                yearArray.shift();
+            if (yearArray.length == 3){
+                yearArray.shift(); // if there's a chart name defined, remove it
+            }
 
-            yearArray.unshift(container);
+            yearArray.unshift(container); // add new chart name with passed variable
 
             var filterdata = filterData(data, container, countryList[0]); // new var to hold json contents and dropdown selection
-            if (countryList[1] != undefined && countryList[1] != "") {
-                filterdata.push(filterData(data, container, countryList[1])[0]);
+            if (countryList[1] != undefined && countryList[1] != "") { // if there is data
+                filterdata.push(filterData(data, container, countryList[1])[0]); // add to the end of filterdata var
             }
             if (countryList[2] != undefined && countryList[2] != "") {
                 filterdata.push(filterData(data, container, countryList[2])[0]);
@@ -348,9 +385,8 @@ $(document).ready(function() {
                 filterdata.push(filterData(data, container, countryList[3])[0]);
             }
 
-            filterdata = GetData(filterdata, yearArray); // [container, '_1984', '_2015']);
-            console.log("filtered data coming");
-            console.log(filterdata);
+            filterdata = GetData(filterdata, yearArray); // [container, '_1984', '_2015']); // fetch data for relevant years
+            // console.log("filtered data is  coming...", filterdata);
 
             // if json contains blank entries in past and present years, don't chart it
             if (filterdata[0]["Present"] > 0 && filterdata[0][$('#born').val()] > 0) {
@@ -366,7 +402,8 @@ $(document).ready(function() {
 
 
     // d3 main
-    // create dropdown contents from json rows
+
+    // fill drop down with countries from json endpoint
     function populateMenu(data, dropdownName, keyvalue) {
         //var select = d3.select(dropdownName + " .menu-content ul")
         var select = d3.select(dropdownName)
@@ -378,7 +415,7 @@ $(document).ready(function() {
                 return 'Select Country' // value for option
             })
             .text(function() {
-                return 'Select Country' // text string
+                return 'Select Country' // set the text string
             });
 
         for (var d in data) { // remove global average from country list
@@ -436,18 +473,19 @@ $(document).ready(function() {
 
     });
 
+    // trigger average when clicked
     $("#global-avg").click(function() {
         changeGlobalAvg();
-        console.log("clicked average");
+        //console.log("clicked average");
     });
 
+    // If selected, add global avg as 4th country to array
     function changeGlobalAvg() {
         if ($("#global-avg").prop('checked')) {
-            //if (document.getElementById('global-avg').checked) {
             countryArray[3] = "Canada"; // change this to "Global Average" once I build it in FME
-            changeCountry();
+            changeCountry(); // normal change country function
         } else {
-            // don't think I need this
+            // set to default aka skip it
             countryArray[3] = "Select Country";
             changeCountry();
         }
@@ -455,12 +493,11 @@ $(document).ready(function() {
 
     function changeCountry() {
         //var birthYear = $("#born").text();
-        var birthYear = +d3.select("#born").property("value");
-        if (birthYear < 1950 || birthYear > 2011) {
+        var birthYear = +d3.select("#born").property("value"); // save user input for year born
+        if (birthYear < 1950 || birthYear > 2011) { // validate
             $(".error").toggle();
             console.log(birthYear + " is out of range");
         } else {
-            // where is yearArray declared??
             yearArray = ["_" + birthYear, "_2011"] // hold formatted birth year plus "current" year into array
             var countries = countryArray.filter(function(d) {
                 return d != "Select Country"; // filter all countries except blank values (match array initial state above)
@@ -468,10 +505,10 @@ $(document).ready(function() {
 
             // Pass filtered countries into each dataset
             showCharts("life_expectancy", "https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", countries, "Life Expectancy", yearArray, "years");
-            showCharts("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", countries, "Infant Mortality", yearArray, "infants");
+            showCharts("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", countries, "Infant Mortality", yearArray, "deaths");
             showCharts("primary_completion_rate_total_of_relevant_age_group", "https://gregor.demo.socrata.com/resource/nx2u-97up.json", countries, "School Completion", yearArray, "percent");
             showCharts("adult_15_literacy_rate_total", "https://gregor.demo.socrata.com/resource/5dhh-qisz.json", countries, "Adult Literacy", yearArray, "%");
-            showCharts("gdp_per_capita_ppp", "https://gregor.demo.socrata.com/resource/uzdz-shpf.json", countries, "Income per person", yearArray, "dollars");
+            showCharts("gdp_per_capita_ppp", "https://gregor.demo.socrata.com/resource/uzdz-shpf.json", countries, "Income Per Person", yearArray, "dollars");
             showCharts("birth_rate", "https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", countries, "Birth Rate", yearArray, "births");
         }
     }
@@ -479,12 +516,14 @@ $(document).ready(function() {
     //update text stats
     function textStats(yearArray) {
         d3.json("https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", function(error, data) {
-            console.log(data, "textStats data");
+            // grab text stats straight from the endpoint
+            // I should probably piggyback from what's already here
         });
     }
 
     // jquery modal
-    $(".about").click(function(){
+    // A year ago I would've needed a plug-in for this
+    $(".about").click(function(){ // when about button is clicked, open modal file
         $.ajax({
             url: "about.html",
             success: function(result){
@@ -493,7 +532,7 @@ $(document).ready(function() {
                 $(".about-content").fadeIn("fast");
             }});
     });
-    $(".about-content").click(function(){
+    $(".about-content").click(function(){ // close if click anywhere
         $(this).fadeOut("fast");
     });
 
