@@ -222,18 +222,24 @@ $(document).ready(function() {
                 .on("mouseover", chart.tip.show) // show tooltip
                 .on("mouseout", chart.tip.hide);
 
+                console.log(dataKeys.slice().reverse());
+
+/*
             var legend = chart.svg.selectAll(".legend")
             //var legend = d3.select("#legend-master")
+            //var legend = chart.svg.select("#legend-master")
                 //.text("laughing")
+                //.data()
                 .data(dataKeys.slice().reverse())
                 .enter().append("g")
-                .attr("class", "legend")
+                .attr("class", "legenda")
                 .attr("transform", function(d, i) {
                     return "translate(60," + i * 20 + ")";
                 })
-                /*.on("click", function(d) {
+                console.log(legend,"this is the legend");
+                .on("click", function(d) {
 
-                });*/
+                });
 
             legend.append("rect")
                 .attr("x", chart.width - 18)
@@ -249,8 +255,9 @@ $(document).ready(function() {
                 .text(function(d) {
                     return d;
                 });
-
+*/
         };
+
 
         // Wrap text
         function wrap(text, width) {
@@ -307,6 +314,9 @@ $(document).ready(function() {
     }
 
     function showCharts(container, apiEndpoint, countryList, title, yearArray, yaxislabel) {
+        $(".legend-block.past .text-label").text($("#born").val());
+        $(".legend-holder").show();
+        //$("#born").val();
         d3.json(apiEndpoint, function(error, data) {
             if (yearArray.length == 3)
                 yearArray.shift();
