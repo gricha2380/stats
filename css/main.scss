@@ -3,6 +3,7 @@ $text-color: #5e5e5e;
 $bg-color: #F8F8F8;
 $pad-m: 20px;
 $gray: #616161;
+$light-gray: #d6d6d6;
 $border-color: #e4e4e4;
 
 body {
@@ -234,7 +235,7 @@ span,button {
 }
 .control-div {
     background: #fff;
-    border: 1px #d6d6d6 solid;
+    border: 1px $light-gray solid;
 //    border-bottom: 10px solid $main-color;
     display: flex;
     align-items: flex-start;
@@ -257,6 +258,9 @@ input[type="text"],input[type="number"] {
 
 .info-content {
     display: none;
+	padding-top: 10px;
+    border-top: 1px solid $border-color;
+    margin-top: 10px;
 }
 .socrata-icon {
 	    width: 15px;
