@@ -109,8 +109,8 @@ $(document).ready(function() {
                 $('.literacy-holder').hide();
             }
             $('.literacy-holder').show();
-            $('.literacy-present').html(lifeFacts[0][0]["Present"]);
-            $('.literacy-past').html(lifeFacts[0][0][$('#born').val()]);
+            $('.literacy-present').html(parseFloat(lifeFacts[0][0]["Present"]).toFixed(2));
+            $('.literacy-past').html(parseFloat(lifeFacts[0][0][$('#born').val()]).toFixed(2));
         }
 
         chart.group = groupby; // grab group from passed variable. Always group by country
@@ -505,7 +505,7 @@ $(document).ready(function() {
 
             // Pass filtered countries into each dataset
             showCharts("life_expectancy", "https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", countries, "Life Expectancy", yearArray, "years");
-            showCharts("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", countries, "Infant Mortality", yearArray, "deaths");
+            showCharts("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", countries, "Infant Mortality", yearArray, "deaths<br>(per 1,000 births)");
             showCharts("primary_completion_rate_total_of_relevant_age_group", "https://gregor.demo.socrata.com/resource/nx2u-97up.json", countries, "School Completion", yearArray, "percent");
             showCharts("adult_15_literacy_rate_total", "https://gregor.demo.socrata.com/resource/5dhh-qisz.json", countries, "Adult Literacy", yearArray, "%");
             showCharts("gdp_per_capita_ppp", "https://gregor.demo.socrata.com/resource/uzdz-shpf.json", countries, "Income Per Person", yearArray, "dollars");

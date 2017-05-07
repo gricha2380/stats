@@ -229,10 +229,13 @@ span,button {
 	}
 }
 
+.control-div-holder {
+	border-bottom: 10px solid $main-color;
+}
 .control-div {
     background: #fff;
-    border: 1px #ebebeb solid;
-    border-bottom: 10px solid $main-color;
+    border: 1px #d6d6d6 solid;
+//    border-bottom: 10px solid $main-color;
     display: flex;
     align-items: flex-start;
     padding: $pad-m;
