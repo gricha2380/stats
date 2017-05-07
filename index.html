@@ -26,6 +26,9 @@
         <div class="container">
             <div class="info-pane">
                 <div class="inner-container">
+                <button class="btn btn-default about">
+                  <span class="">?</span>
+                </button>
                     <div class="entry-header">
                         <h1 class="info-pane-name">Incremental Progress</h1>
                     </div>
@@ -64,91 +67,44 @@
                             <input type="number" id="born" name="born" min="1950" max="2017" value="1990" tabindex="1">
                         </div>
                     </div>
-                    <div class="row country-row">
-                        <div class="control-group col-lg-4" >
-                            <label for="countryMenu1">Choose Country</label>
-                            <select id="countryMenu1" class="country-menuq" data-placeholder="Select Country" style="display:none">
-                                <option value="">None</option>
-                            </select>
-                        </div>
-                        <div class="control-group col-lg-4" >
-                            <label for="countryMenu2">Choose Country</label>
-                            <select id="countryMenu2" class="country-menuq" data-placeholder="Select Country" style="display:none">
-                                <option value="">None</option>
-                            </select>
-                        </div>
-                        <div class="control-group col-lg-4" >
-                            <label for="countryMenu3">Choose Country</label>
-                            <select id="countryMenu3" class="country-menuq" data-placeholder="Select Country" style="display:none">
-                                <option value="">None</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row" style="display:none">
-                        <div class="input-holder">
-                            <label for="name">Select a Country</label>
-                            <div id="country1" class="country-menu" tabindex="2">
-                                <span class="country-choice">Select...</span>
-                                <ul class="dropdown">
-                                    <li country="none">
-                                        <a href="#">None</a>
-                                    </li>
-                                    <li country="Grenada">
-                                        <a href="#">Grenada</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">United States</a>
-                                    </li>
-                                </ul>
+                    <div class="row spinner-row"><span class="spinner-default spinner-large"></span></div>
+                    <div class="dynamic-input">
+                        <div class="row country-row">
+                            <div class="control-group col-lg-4" >
+                                <label for="countryMenu1">Choose Country</label>
+                                <select id="countryMenu1" class="country-menuq" data-placeholder="Select Country" style="display:none">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                            <div class="control-group col-lg-4" >
+                                <label for="countryMenu2">Choose Country</label>
+                                <select id="countryMenu2" class="country-menuq" data-placeholder="Select Country" style="display:none">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                            <div class="control-group col-lg-4" >
+                                <label for="countryMenu3">Choose Country</label>
+                                <select id="countryMenu3" class="country-menuq" data-placeholder="Select Country" style="display:none">
+                                    <option value="">None</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="input-holder">
-                            <div id="country2" class="country-menu" tabindex="3">
-                                <span class="country-choice">Select...</span>
-                                <ul class="dropdown">
-                                    <li country="none">
-                                        <a href="#">None</a>
-                                    </li>
-                                    <li country="Grenada">
-                                        <a href="#">Grenada</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">United States</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="input-holder">
-                            <div id="country3" class="country-menu" tabindex="4">
-                                <span class="country-choice">Select...</span>
-                                <ul class="dropdown">
-                                    <li country="none">
-                                        <a href="#">None</a>
-                                    </li>
-                                    <li country="Grenada">
-                                        <a href="#">Grenada</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">United States</a>
-                                    </li>
-                                </ul>
-                            </div>
+
+                        <div class="row globalAvg">
+                            <input type="checkbox" name="global-avg" id="global-avg">
+                            <label for="global-avg">Global Avg</label>
                         </div>
                     </div>
 
-                    <div class="row globalAvg">
-                        <input type="checkbox" name="global-avg" id="global-avg">
-                        <label for="global-avg">Global Avg</label>
-                    </div>
                 </form>
             </div>
             <div class="legend-holder" id="legend-master">
-                <div class="legend-block present">
-                    <span class="text-label">Present</span>
-                    <span class="color"></span>
-                </div>
                 <div class="legend-block past">
                     <span class="text-label"></span>
+                    <span class="color"></span>
+                </div>
+                <div class="legend-block present">
+                    <span class="text-label">Present</span>
                     <span class="color"></span>
                 </div>
             </div>
@@ -232,6 +188,7 @@
             </div>
         </div>
     </div>
+    <div class="about-content"></div>
     <!-- /.container -->
     <script>
     (function(i, s, o, g, r, a, m) {

@@ -1,4 +1,8 @@
 $(document).ready(function() {
+
+    $(".spinner-row").delay(1100).fadeOut();
+    $(".dynamic-input").delay(1100).fadeIn();
+
     // text stat vars
     var lifeCountry, lifePast, lifePresent, lifeFacts = [];
 
@@ -7,15 +11,21 @@ $(document).ready(function() {
         $(".info-content").toggle();
     });
 
-$("#born").change(function(){
-    if ($("#countryMenu1").val().length > 0) {
-        console.log($("#countryMenu1").val().length > 0);
-        changeCountry();
-    } else {
-        console.log("too short");
-    }
+    $("#born").change(function(){
+        if ($("#countryMenu1").val().length > 0) {
+            console.log($("#countryMenu1").val().length > 0);
+            changeCountry();
+        } else {
+            console.log("too short");
+        }
+    });
 
-});
+    $(".selectize-input.items").change(function(){
+        if ($(".selectize-input.items.not-full")) {
+            alert("Value ain't nothin'");
+        };
+    });
+
 
     // d3 functions
     // d3 v3.5.17
@@ -328,13 +338,13 @@ $("#born").change(function(){
             yearArray.unshift(container);
 
             var filterdata = filterData(data, container, countryList[0]); // new var to hold json contents and dropdown selection
-            if (countryList[1] != undefined) {
+            if (countryList[1] != undefined && countryList[1] != "") {
                 filterdata.push(filterData(data, container, countryList[1])[0]);
             }
-            if (countryList[2] != undefined) {
+            if (countryList[2] != undefined && countryList[2] != "") {
                 filterdata.push(filterData(data, container, countryList[2])[0]);
             }
-            if (countryList[3] != undefined) {
+            if (countryList[3] != undefined && countryList[3] != "") {
                 filterdata.push(filterData(data, container, countryList[3])[0]);
             }
 
@@ -446,12 +456,12 @@ $("#born").change(function(){
     function changeCountry() {
         //var birthYear = $("#born").text();
         var birthYear = +d3.select("#born").property("value");
-        if (birthYear < 1950 || birthYear > 2015) {
+        if (birthYear < 1950 || birthYear > 2011) {
             $(".error").toggle();
             console.log(birthYear + " is out of range");
         } else {
             // where is yearArray declared??
-            yearArray = ["_" + birthYear, "_2015"] // hold formatted birth year plus "current" year into array
+            yearArray = ["_" + birthYear, "_2011"] // hold formatted birth year plus "current" year into array
             var countries = countryArray.filter(function(d) {
                 return d != "Select Country"; // filter all countries except blank values (match array initial state above)
             });
@@ -459,7 +469,7 @@ $("#born").change(function(){
             // Pass filtered countries into each dataset
             showCharts("life_expectancy", "https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", countries, "Life Expectancy", yearArray, "years");
             showCharts("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", countries, "Infant Mortality", yearArray, "infants");
-            showCharts("primary_completion_rate_total_of_relevant_age_group", "https://gregor.demo.socrata.com/resource/nx2u-97up.json", countries, "School Completion", yearArray, "years");
+            showCharts("primary_completion_rate_total_of_relevant_age_group", "https://gregor.demo.socrata.com/resource/nx2u-97up.json", countries, "School Completion", yearArray, "percent");
             showCharts("adult_15_literacy_rate_total", "https://gregor.demo.socrata.com/resource/5dhh-qisz.json", countries, "Adult Literacy", yearArray, "%");
             showCharts("gdp_per_capita_ppp", "https://gregor.demo.socrata.com/resource/uzdz-shpf.json", countries, "Income per person", yearArray, "dollars");
             showCharts("birth_rate", "https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", countries, "Birth Rate", yearArray, "births");
@@ -472,4 +482,20 @@ $("#born").change(function(){
             console.log(data, "textStats data");
         });
     }
+
+    // jquery modal
+    $(".about").click(function(){
+        $.ajax({
+            url: "about.html",
+            success: function(result){
+                $(".about-content").html(result);
+                $(".about-content").addClass("modal-open");
+                $(".about-content").fadeIn("fast");
+            }});
+    });
+    $(".about-content").click(function(){
+        $(this).fadeOut("fast");
+    });
+
+
 }); // end document.ready
