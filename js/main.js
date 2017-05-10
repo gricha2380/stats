@@ -468,7 +468,7 @@ $(document).ready(function() {
             }
         });
         // set var to later grab row for specified country
-        var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // do I really need to pass Abk value??
+        var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // JSON endpoint is setup with this as first entry
 
 
     });
