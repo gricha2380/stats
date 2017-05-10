@@ -14,7 +14,7 @@ $(document).ready(function() {
     console.log(metricType);
 
     // prepare data endpoint
-    var url = 'https://gregor.demo.socrata.com/resource/68np-55g5.json?$limit=10';
+    var url = 'https://gregor.demo.socrata.com/resource/68np-55g5.json'; //?$limit=10
 
 
     $.getJSON(url, function(data, textstatus) {
@@ -25,7 +25,7 @@ $(document).ready(function() {
         // Loop over result set
         $.each(data, function(i, column) {
             //console.log(data[i]);
-            for (var x = 2005; x < 2012; x++) {
+            for (var x = 1987; x < 2012; x++) {
 
                 // if current year is blank, set the text to "-"
                 if (data[i]["_" + x] == undefined) {
@@ -37,6 +37,64 @@ $(document).ready(function() {
             // for each json record, add a row to the HTML table
             $('.data-table').dataTable().fnAddData([
                 column.life_expectancy,
+                // column._1950,
+                // column._1951,
+                // column._1952,
+                // column._1953,
+                // column._1954,
+                // column._1955,
+                // column._1956,
+                // column._1957,
+                // column._1958,
+                // column._1959,
+                // column._1960,
+                // column._1961,
+                // column._1962,
+                // column._1963,
+                // column._1964,
+                // column._1965,
+                // column._1966,
+                // column._1967,
+                // column._1968,
+                // column._1969,
+                // column._1970,
+                // column._1971,
+                // column._1972,
+                // column._1973,
+                // column._1974,
+                // column._1975,
+                // column._1976,
+                // column._1977,
+                // column._1978,
+                // column._1979,
+                // column._1980,
+                // column._1981,
+                // column._1982,
+                // column._1983,
+                // column._1984,
+                // column._1985,
+                // column._1986,
+                // column._1987,
+                column._1988,
+                column._1989,
+                column._1990,
+                column._1991,
+                column._1992,
+                column._1993,
+                column._1994,
+                column._1995,
+                column._1996,
+                column._1997,
+                column._1998,
+                column._1999,
+                column._2000,
+                column._2001,
+                column._2002,
+                column._2003,
+                column._2004,
+                column._2005,
+                column._2006,
+                column._2007,
                 column._2008,
                 column._2009,
                 column._2010,
