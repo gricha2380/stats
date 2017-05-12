@@ -34,6 +34,7 @@ $(document).ready(function() {
     $("#metric").on("change", function() {
         metricType = $("#metric").val();
         console.log("Metric type is",metricType);
+        $('.data-table').dataTable().fnClearTable();
         fillTable(metricType);
     });
 
@@ -55,6 +56,17 @@ $(document).ready(function() {
         }
 */
 
+var dataHolder= [
+["column.life_expectancy", "column.infant_mortality_rate"
+],
+{
+	"columns":
+	"column._1950, column._1951, column._1952, column._1953, column._1954, column._1955, column._1956, column._1957, column._1958, column._1959, column._1960, column._1961, column._1962, column._1963, column._1964, column._1965, column._1966, column._1967, column._1968, column._1969, column._1970, column._1971, column._1972, column._1973, column._1974, column._1975, column._1976, column._1977, column._1978, column._1979, column._1980, column._1981, column._1982, column._1983, column._1984, column._1985, column._1986, column._1987, column._1988, column._1989, column._1990, column._1991, column._1992, column._1993, column._1994, column._1995, column._1996, column._1997, column._1998, column._1999, column._2000, column._2001, column._2002, column._2003, column._2004, column._2005, column._2006, column._2007, column._2008, column._2009, column._2010, column._2011, column._2012"
+}
+];
+
+console.log(dataHolder[0][0]);
+console.log(dataHolder[1].columns);
     $.getJSON(metricType, function(data, textstatus) {
         // console.log(data);
 
@@ -62,6 +74,7 @@ $(document).ready(function() {
 // I WANT TO DYNAMICALLY CHANGE "column.life_expectancy" INTO THE NAME OF THE PROPER TABLE,
 // BUT I DUN KNO HAOW.
 
+// life expectancy
 if (metricType == 'https://gregor.demo.socrata.com/resource/68np-55g5.json') {
 
         // Loop over result set
@@ -146,6 +159,8 @@ if (metricType == 'https://gregor.demo.socrata.com/resource/68np-55g5.json') {
             ]);
         }); // end $.each loop
 } // end stupid metricType loop
+
+// Infant mortality
 else if (metricType == 'https://gregor.demo.socrata.com/resource/26t6-aicm.json') {
 
         // Loop over result set
@@ -162,9 +177,339 @@ else if (metricType == 'https://gregor.demo.socrata.com/resource/26t6-aicm.json'
 
             // for each json record, add a row to the HTML table
             // why does this need one more than the html table?
-            $('.data-table').dataTable().fnClearTable();
+
             $('.data-table').dataTable().fnAddData([
                 column.infant_mortality_rate,
+                column._1950,
+                column._1951,
+                column._1952,
+                column._1953,
+                column._1954,
+                column._1955,
+                column._1956,
+                column._1957,
+                column._1958,
+                column._1959,
+                column._1960,
+                column._1961,
+                column._1962,
+                column._1963,
+                column._1964,
+                column._1965,
+                column._1966,
+                column._1967,
+                column._1968,
+                column._1969,
+                column._1970,
+                column._1971,
+                column._1972,
+                column._1973,
+                column._1974,
+                column._1975,
+                column._1976,
+                column._1977,
+                column._1978,
+                column._1979,
+                column._1980,
+                column._1981,
+                column._1982,
+                column._1983,
+                column._1984,
+                column._1985,
+                column._1986,
+                column._1987,
+                column._1988,
+                column._1989,
+                column._1990,
+                column._1991,
+                column._1992,
+                column._1993,
+                column._1994,
+                column._1995,
+                column._1996,
+                column._1997,
+                column._1998,
+                column._1999,
+                column._2000,
+                column._2001,
+                column._2002,
+                column._2003,
+                column._2004,
+                column._2005,
+                column._2006,
+                column._2007,
+                column._2008,
+                column._2009,
+                column._2010,
+                column._2011,
+                column._2012
+            ]);
+        }); // end $.each loop
+} // end stupid metricType loop
+
+// school completion
+else if (metricType == 'https://gregor.demo.socrata.com/resource/nx2u-97up.json') {
+
+        // Loop over result set
+        $.each(data, function(i, column) {
+            //console.log(data[i]);
+            for (var x = 1971; x <= 2011; x++) {
+
+                // if current year is blank, set the text to "-"
+                if (data[i]["_" + x] == undefined) {
+                    data[i]["_" + x] = '-';
+                    //console.log(data[i]["_" + x]);
+                };
+            }; // end for x
+
+            // for each json record, add a row to the HTML table
+            // why does this need one more than the html table?
+
+            $('.data-table').dataTable().fnAddData([
+                column.primary_completion_rate_total_of_relevant_age_group,
+                column._1972,
+                column._1973,
+                column._1974,
+                column._1975,
+                column._1976,
+                column._1977,
+                column._1978,
+                column._1979,
+                column._1980,
+                column._1981,
+                column._1982,
+                column._1983,
+                column._1984,
+                column._1985,
+                column._1986,
+                column._1987,
+                column._1988,
+                column._1989,
+                column._1990,
+                column._1991,
+                column._1992,
+                column._1993,
+                column._1994,
+                column._1995,
+                column._1996,
+                column._1997,
+                column._1998,
+                column._1999,
+                column._2000,
+                column._2001,
+                column._2002,
+                column._2003,
+                column._2004,
+                column._2005,
+                column._2006,
+                column._2007,
+                column._2008,
+                column._2009,
+                column._2010,
+                column._2011,
+                column._2012
+            ]);
+        }); // end $.each loop
+} // end stupid metricType loop
+
+// adult literacy
+else if (metricType == 'https://gregor.demo.socrata.com/resource/5dhh-qisz.json') {
+
+        // Loop over result set
+        $.each(data, function(i, column) {
+            //console.log(data[i]);
+            for (var x = 1950; x <= 2012; x++) {
+
+                // if current year is blank, set the text to "-"
+                if (data[i]["_" + x] == undefined) {
+                    data[i]["_" + x] = '-';
+                    //console.log(data[i]["_" + x]);
+                };
+            }; // end for x
+
+            // for each json record, add a row to the HTML table
+            // why does this need one more than the html table?
+
+            $('.data-table').dataTable().fnAddData([
+                column.adult_15_literacy_rate_total,
+                column._1950,
+                column._1951,
+                column._1952,
+                column._1953,
+                column._1954,
+                column._1955,
+                column._1956,
+                column._1957,
+                column._1958,
+                column._1959,
+                column._1960,
+                column._1961,
+                column._1962,
+                column._1963,
+                column._1964,
+                column._1965,
+                column._1966,
+                column._1967,
+                column._1968,
+                column._1969,
+                column._1970,
+                column._1971,
+                column._1972,
+                column._1973,
+                column._1974,
+                column._1975,
+                column._1976,
+                column._1977,
+                column._1978,
+                column._1979,
+                column._1980,
+                column._1981,
+                column._1982,
+                column._1983,
+                column._1984,
+                column._1985,
+                column._1986,
+                column._1987,
+                column._1988,
+                column._1989,
+                column._1990,
+                column._1991,
+                column._1992,
+                column._1993,
+                column._1994,
+                column._1995,
+                column._1996,
+                column._1997,
+                column._1998,
+                column._1999,
+                column._2000,
+                column._2001,
+                column._2002,
+                column._2003,
+                column._2004,
+                column._2005,
+                column._2006,
+                column._2007,
+                column._2008,
+                column._2009,
+                column._2010,
+                column._2011,
+                column._2012
+            ]);
+        }); // end $.each loop
+} // end stupid metricType loop
+
+
+// Income per Person
+else if (metricType == 'https://gregor.demo.socrata.com/resource/uzdz-shpf.json') {
+
+        // Loop over result set
+        $.each(data, function(i, column) {
+            //console.log(data[i]);
+            for (var x = 1950; x <= 2012; x++) {
+
+                // if current year is blank, set the text to "-"
+                if (data[i]["_" + x] == undefined) {
+                    data[i]["_" + x] = '-';
+                    //console.log(data[i]["_" + x]);
+                };
+            }; // end for x
+
+            // for each json record, add a row to the HTML table
+            // why does this need one more than the html table?
+
+            $('.data-table').dataTable().fnAddData([
+                column.gdp_per_capita_ppp,
+                column._1950,
+                column._1951,
+                column._1952,
+                column._1953,
+                column._1954,
+                column._1955,
+                column._1956,
+                column._1957,
+                column._1958,
+                column._1959,
+                column._1960,
+                column._1961,
+                column._1962,
+                column._1963,
+                column._1964,
+                column._1965,
+                column._1966,
+                column._1967,
+                column._1968,
+                column._1969,
+                column._1970,
+                column._1971,
+                column._1972,
+                column._1973,
+                column._1974,
+                column._1975,
+                column._1976,
+                column._1977,
+                column._1978,
+                column._1979,
+                column._1980,
+                column._1981,
+                column._1982,
+                column._1983,
+                column._1984,
+                column._1985,
+                column._1986,
+                column._1987,
+                column._1988,
+                column._1989,
+                column._1990,
+                column._1991,
+                column._1992,
+                column._1993,
+                column._1994,
+                column._1995,
+                column._1996,
+                column._1997,
+                column._1998,
+                column._1999,
+                column._2000,
+                column._2001,
+                column._2002,
+                column._2003,
+                column._2004,
+                column._2005,
+                column._2006,
+                column._2007,
+                column._2008,
+                column._2009,
+                column._2010,
+                column._2011,
+                column._2012
+            ]);
+        }); // end $.each loop
+} // end stupid metricType loop
+
+
+
+
+// Birth Rate
+else if (metricType == 'https://gregor.demo.socrata.com/resource/a9a5-mkyv.json') {
+
+        // Loop over result set
+        $.each(data, function(i, column) {
+            //console.log(data[i]);
+            for (var x = 1950; x <= 2012; x++) {
+
+                // if current year is blank, set the text to "-"
+                if (data[i]["_" + x] == undefined) {
+                    data[i]["_" + x] = '-';
+                    //console.log(data[i]["_" + x]);
+                };
+            }; // end for x
+
+            // for each json record, add a row to the HTML table
+            // why does this need one more than the html table?
+
+            $('.data-table').dataTable().fnAddData([
+                column.birth_rate,
                 column._1950,
                 column._1951,
                 column._1952,
