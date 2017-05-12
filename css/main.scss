@@ -5,7 +5,16 @@ $pad-m: 20px;
 $gray: #616161;
 $light-gray: #d6d6d6;
 $border-color: #e4e4e4;
-
+.stat-holder {display: none;}
+.body-holder.table-temp {
+	.control-div-holder {
+		margin-bottom: 60px;
+	}
+	.control-div {
+		height: 200px;
+    	min-height: inherit;
+	}
+}
 body {
     //border-top: 30px solid $main-color;
     border-bottom: 10px solid $main-color;
@@ -42,7 +51,7 @@ body {
 			text-decoration: underline;
 		}
 		&.active {
-			color: #bbb;
+			color: rgba(255, 255, 255, 0.42);
 			&:hover {
 				text-decoration: none;
 				color: #d4d4d4;
