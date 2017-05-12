@@ -66,6 +66,11 @@ $(document).ready(function() {
         lifeFacts[0] = data; //saving info to display in text fact area
         $(".bottom-info").show(); // show text facts, now that theres data
 
+        if (countryArray[0] != "Select Country") {
+            $(".life-country").text("in "+countryArray[0]);
+        };
+
+
         // conditionally hide the text facts when the charts have no data
         // When chart is available, grab year born and format values properly
         if (chartTitle == 'Income Per Person') {
@@ -468,7 +473,7 @@ $(document).ready(function() {
             }
         });
         // set var to later grab row for specified country
-        var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // do I really need to pass Abk value??
+        var filterdata = filterData(data, "life_expectancy", "Abkhazia"); // JSON endpoint is setup with this as first entry
 
 
     });
@@ -482,7 +487,7 @@ $(document).ready(function() {
     // If selected, add global avg as 4th country to array
     function changeGlobalAvg() {
         if ($("#global-avg").prop('checked')) {
-            countryArray[3] = "Canada"; // change this to "Global Average" once I build it in FME
+            countryArray[3] = "Global Avg"; // change this to "Global Average" once I build it in FME
             changeCountry(); // normal change country function
         } else {
             // set to default aka skip it
