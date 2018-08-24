@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    let datasetLifeExpectancy = "https://opendata.socrata.com/resource/u659-59h8.json";
+    let datasetInfantMortalityRate = "https://opendata.socrata.com/resource/8msa-gp3u.json";
+    let datasetPrimarySchoolCompletion = "https://opendata.socrata.com/resource/g4gf-k7jh.json";
+    let datasetLiteracyRate = "https://opendata.socrata.com/resource/bcrg-tzez.json";
+    let datasetGDP = "https://opendata.socrata.com/resource/rzaq-uwnz.json";
+    let datasetBirthRate = "https://opendata.socrata.com/resource/6qjk-tdqw.json";
+
     // hide loader after 1.1 seconds
     $(".spinner-row").delay(1000).fadeOut();
 
@@ -442,7 +449,7 @@ $(document).ready(function() {
     var countryArray = ["Select Country", "Select Country", "Select Country", "Select Country"]; // do I need array values?
 
     // import country list from life expectancy dataset
-    d3.json("https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", function(error, data) {
+    d3.json(datasetLifeExpectancy, function(error, data) {
 
         // set each menu into a variable and populate it with the country list
         //var select1 = populateDropdown(data, "#countryDD1", "life_expectancy");
@@ -509,18 +516,18 @@ $(document).ready(function() {
             });
 
             // Pass filtered countries into each dataset
-            showCharts("life_expectancy", "https://gregor.demo.socrata.com/resource/7bwx-8zmz.json", countries, "Life Expectancy", yearArray, "years");
-            showCharts("infant_mortality_rate", "https://gregor.demo.socrata.com/resource/mm5u-4tsq.json", countries, "Infant Mortality", yearArray, "deaths<br>(per 1,000 births)");
-            showCharts("primary_completion_rate_total_of_relevant_age_group", "https://gregor.demo.socrata.com/resource/nx2u-97up.json", countries, "School Completion", yearArray, "percent");
-            showCharts("adult_15_literacy_rate_total", "https://gregor.demo.socrata.com/resource/5dhh-qisz.json", countries, "Adult Literacy", yearArray, "%");
-            showCharts("gdp_per_capita_ppp", "https://gregor.demo.socrata.com/resource/uzdz-shpf.json", countries, "Income Per Person", yearArray, "dollars");
-            showCharts("birth_rate", "https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", countries, "Birth Rate", yearArray, "births");
+            showCharts("life_expectancy", datasetLifeExpectancy, countries, "Life Expectancy", yearArray, "years");
+            showCharts("infant_mortality_rate", datasetInfantMortalityRate, countries, "Infant Mortality", yearArray, "deaths<br>(per 1,000 births)");
+            showCharts("primary_completion_rate_total_of_relevant_age_group", datasetPrimarySchoolCompletion, countries, "School Completion", yearArray, "percent");
+            showCharts("adult_15_literacy_rate_total", datasetLiteracyRate, countries, "Adult Literacy", yearArray, "%");
+            showCharts("gdp_per_capita_ppp", datasetGDP, countries, "Income Per Person", yearArray, "dollars");
+            showCharts("birth_rate", datasetBirthRate, countries, "Birth Rate", yearArray, "births");
         }
     }
 
     //update text stats
     function textStats(yearArray) {
-        d3.json("https://gregor.demo.socrata.com/resource/a9a5-mkyv.json", function(error, data) {
+        d3.json(datasetBirthRate, function(error, data) {
             // grab text stats straight from the endpoint
             // I should probably piggyback from what's already here
         });
